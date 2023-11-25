@@ -11,6 +11,7 @@ if(isset($_POST['insert_class'])){
   $sql = "INSERT INTO `class_enrollment`(`UIN`, `Class_ID`, `Status`, `Semester`, `Year`) 
     VALUES (?,?,?,?,?)";
   $stmt = mysqli_stmt_init($conn);
+  mysqli_stmt_prepare($stmt, $sql);
   mysqli_stmt_bind_param($stmt, "iisss", $_POST['uin'],$_POST['class_id'],$_POST['status'],$_POST['semester'],$_POST['year']);
   mysqli_stmt_execute($stmt);
   // $resultData = mysqli_stmt_get_result($stmt);
@@ -24,7 +25,7 @@ if(isset($_POST['insert_class'])){
 } else if(isset($_POST['insert_intern'])) {
   echo "<h2>Insert Internship</h2>";
 } else {
-  // echo "<h2>End</h2>";
-  header("location: ../programprogress.php");
+  echo "<h2>End</h2>";
+  // header("location: ../programprogress.php");
   exit();
 }
