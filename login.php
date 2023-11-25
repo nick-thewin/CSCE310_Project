@@ -14,8 +14,11 @@
         <form action = "includes/login.inc.php" method = "post">
             <input type = "text" name = "username" placeholder = "Username">
             <input type = "text" name = "password" placeholder = "Password">
-            <button type = "signin" name = "signin">Sign in </button>
+            <button type = "signin" name = "signin">Sign in</button>
         </form>
+
+        <h3>Back to Home</h3>
+        <a href='index.php'>Home</a></li>
 
         <?php
             if(isset($_GET["error"])){
