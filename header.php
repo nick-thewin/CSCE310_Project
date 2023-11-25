@@ -16,7 +16,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cybersecurity Center Student Tracking and Reporting Tool</title>
   <link rel="icon" type="image/png" sizes="32x32" href="TAM-LogoBox.png">
-  <link href="style.css" rel="stylesheet">
+  <link href="style.php" rel="stylesheet">
 </head>
 <body>
 	<nav>
