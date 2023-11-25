@@ -65,6 +65,7 @@ function loginUser($conn, $username, $password){
         $_SESSION["userid"] = $usernameExists["UIN"];
         $_SESSION["userName"] = $usernameExists["First_Name"];
         $_SESSION["userLast"] = $usernameExists["Last_Name"];
+        $_SESSION["userPerm"] = $usernameExists["User_Type"];
         header("location: ../index.php");
         exit();
     }
