@@ -25,6 +25,30 @@ function usernameExists($conn, $username){
     mysqli_stmt_close($stmt);
 }
 
+function usernameExists2($conn, $username){
+    $sql = 'SELECT * FROM user WHERE Username = ?;';
+    $stmt = mysqli_stmt_init($conn);
+    if(!mysqli_stmt_prepare($stmt, $sql)){
+        header("location: ../signup.php?error=stmtfailed");
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "s", $username);
+    mysqli_stmt_execute($stmt);
+
+    $resultData = mysqli_stmt_get_result($stmt);
+
+    if($row = mysqli_fetch_assoc($resultData)){
+        return $row;
+    }
+    else{
+        $result = false;
+        return $result;
+    }
+
+    mysqli_stmt_close($stmt);
+}
+
 
 function emptyInputLogin($username, $password) {
     $result;
@@ -70,4 +94,30 @@ function loginUser($conn, $username, $password){
         exit();
     }
 
+}
+
+function emptyInputSignup($Fname, $MI, $LName, $Username, $Password, $userType, $Email, $Discord){
+    $result;
+    if(empty($Fname) || empty($MI) || empty($LName) || empty($Username) || empty($Password) || empty($Email) || empty($Discord)){
+        $result = true;
+    }
+    else{
+        $result = false;
+    }
+    return $result;
+}
+
+function createUser($conn, $FName, $MI, $LName, $Username, $Password, $userType, $Email, $Discord){
+    $sql = 'INSERT INTO user(First_Name, M_Initial, Last_Name, Username, Passwords, User_Type, Email, Discord_Name) VALUES (?,?,?,?,?,?,?,?)';
+    $stmt = mysqli_stmt_init($conn);
+    if(!mysqli_stmt_prepare($stmt, $sql)){
+        header("location: ../signup.php?error=stmtfailed");
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "ssssssss", $FName, $MI, $LName, $Username, $Password, $userType, $Email, $Discord);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    header("location: ../signup.php?error=signupsuccess");
+    exit();
 }
