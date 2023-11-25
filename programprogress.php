@@ -23,7 +23,7 @@
     <input type="text" id="semester" name="semester"><br>
     <label for="year">Year: </label><br>
     <input type="text" id="year" name="year"><br>
-    <button type="submit" name="   Class">Submit</button>
+    <button type="submit" name="insert_class">Submit</button>
   </form>
   <br>
   <h3>Insert Internship</h3>
@@ -36,7 +36,7 @@
     <input type="text" id="status" name="status"><br>
     <label for="year">Year: </label><br>
     <input type="text" id="year" name="year"><br>
-    <button type="submit" name="Insert Internship">Submit</button>
+    <button type="submit" name="insert_intern">Submit</button>
   </form>
 
 <?php
