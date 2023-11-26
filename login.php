@@ -31,6 +31,9 @@
                 else if($_GET["error"] == "stmtfailed"){
                     echo "<p>Something went wrong, try again</p>";
                 }
+                else if($_GET["error"] == "deactivatedaccount"){
+                    echo "<p>This account has been deactivated.</p>";
+                }
             }
         ?>
 

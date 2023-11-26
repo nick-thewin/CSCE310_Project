@@ -32,7 +32,7 @@
 					}
 					else if($_SESSION["userPerm"] === "Student"){
 						echo "<h2>Student Landing Page</h2>
-							<li><a href='toname.php'>User Authentication and Roles</a></li>
+							<li><a href='studentuser.php'>User Authentication and Roles</a></li>
 							<li><a href='app_info_manager.php'>Application Information Management</a></li>
 							<li><a href='programprogress.php'>Program Progress Tracking</a></li>
 							<li><a href='toname.php'>Document Upload and Management</a></li>";
@@ -45,8 +45,8 @@
 						  </li>";
 				}
 				else{
-					echo "<li><a href = 'login.php'> Login </a></li>
-						  <li><a href = 'signup.php'> Sign Up </a></li>";
+					echo "<li><a href = 'login.php'>Login</a></li>
+						  <li><a href = 'signup.php'>Sign Up</a></li>";
 				}
 			?>
 		</ul>

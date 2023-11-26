@@ -18,7 +18,7 @@ if(isset($_POST["createAccount"])){
         header("location: ../signup.php?error=emptyinput");
         exit();
     }
-    echo $userType;
+    
     if(usernameExists2($conn,$Username) !== false){
         header("location: ../signup.php?error=usernametaken");
         exit();

@@ -70,6 +70,10 @@ function loginUser($conn, $username, $password){
     }
 
     $userPassword = $usernameExists["Passwords"];
+    if($usernameExists["User_Type"] === "Deactivated"){
+        header("location: ../login.php?error=deactivatedaccount");
+        exit();
+    }
     
     $result;
     if(strcmp($userPassword, $password) !== 0){
