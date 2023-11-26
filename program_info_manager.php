@@ -24,6 +24,14 @@
     </form>
     <br>
 
+    <h3>Delete Program</h3>
+    <form action="includes/program_info_manager.inc.php" method="post">
+        <label for="Program_Num">Program Number: </label><br>
+        <input type="text" id="Program_Num" name="Program_Num"><br>
+        <button type="delete_program_data" name="delete_program_data">Submit</button>
+    </form>
+    <br>
+
 
 <?php
 
