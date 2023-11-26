@@ -24,6 +24,16 @@
     </form>
     <br>
 
+    <h3>Generate Program Report</h3>
+    <form action="includes/program_info_manager.inc.php" method="post">
+        <label for="Program_Num">Program Number: </label><br>
+        <input type="text" id="Program_Num" name="Program_Num"><br>
+        <button type="generate_program_report" name="generate_program_report">Submit</button>
+    </form>
+    <br>
+
+    
+
     <h3>Delete Program Data</h3>
     <form action="includes/program_info_manager.inc.php" method="post">
         <label for="Program_Num">Program Number: </label><br>

@@ -61,6 +61,37 @@ if(isset($_POST['edit_program'])){
     }
 }
 
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["generate_program_report"])) {
+  // Process form data
+  $programNum = isset($_POST["Program_Num"]) ? $_POST["Program_Num"] : '';
+
+  // Validate or sanitize input if needed
+
+  // Retrieve data from the database
+  $sql = "SELECT Name, Description FROM programs WHERE Program_Num = ?";
+  $stmt = $conn->prepare($sql);
+  $stmt->bind_param("s", $programNum);
+  $stmt->execute();
+  $stmt->bind_result($name, $description);
+  $stmt->fetch();
+  $stmt->close();
+
+  // Generate the report
+  $report = "Program Number: $programNum<br>";
+  $report .= "Name: $name<br>";
+  $report .= "Description: $description";
+
+  // Display the report on the screen
+  echo "<h3>Generated Program Report</h3>";
+  echo '<div style="border: 1px solid #ccc; padding: 15px; margin: 20px; max-width: 400px;">';
+  echo "<p><strong>Program Number:</strong> $programNum</p>";
+  echo "<p><strong>Name:</strong> $name</p>";
+  echo "<p><strong>Description:</strong> $description</p>";
+  echo '</div>';
+  echo '<button style="margin-top: 10px;" onclick="history.go(-1);">Back</button>';
+}
+
+
 if (isset($_POST['delete_program_data'])) {
     $programNum = $_POST['Program_Num'];
 
