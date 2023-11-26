@@ -20,7 +20,7 @@
 </head>
 <body>
 	<nav>
-		<ul>
+		<ul class = "navbar">
 			<?php
 				if(isset($_SESSION["userid"])) {
 					if($_SESSION["userPerm"] === "Admin"){
