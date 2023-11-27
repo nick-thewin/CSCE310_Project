@@ -95,6 +95,24 @@ if ($result = $conn->query($query)) {
               <input type="text" id="email" name="email"><br>
               <label for="Discord Name">Discord Name: </label><br>
               <input type="text" id="discord_name" name="discord_name"><br>
+              <label for="gpa">GPA:</label><br>
+              <input type="number" id="gpa" name="gpa" step="any"><br>
+              <label for = "major"> Major: </label><br>
+              <input type = "text" name = "major"><br>
+              <label for = "minor1"> Minor 1: </label><br>
+              <input type = "text" name = "minor1"><br>
+              <label for = "minor2"> Minor 2: </label><br>
+              <input type = "text" name = "minor2"><br>
+              <label for="grad">Anticipated Graduation Year:</label><br>
+              <input type="number" id="grad" name="grad" min="2023" max="2099"><br>
+              <label for = "school"> School: </label><br>
+              <input type = "text" name = "school"><br>
+              <label for = "classification"> Classification: </label><br>
+              <input type = "text" name = "classification"><br>
+              <label for = "phone"> Phone Number: </label><br>
+              <input type = "number" name = "phone"><br>
+              <label for = "studenttype"> Type of Student: </label><br>
+              <input type = "text" name = "studenttype"><br>
               <button type="updateinfo" name="updateinfo">Submit</button>
             </form>
 
@@ -139,9 +157,9 @@ if ($result = $conn->query($query)) {
                           <th>Last Name</th> 
                           <th>Username</th> 
                           <th>Password</th>
-                          <th>User Type</th>
                           <th>Email</th>
                           <th>Discord Name</th>
+                          <th>Gender</th>
                           
                       </tr>';
 
@@ -153,14 +171,12 @@ if ($result = $conn->query($query)) {
                       <td>' . $accountInfo["Last_Name"] . '</td> 
                       <td>' . $accountInfo["Username"] . '</td>
                       <td>' . $accountInfo["Passwords"] . '</td>
-                      <td>' . $accountInfo["User_Type"] . '</td>
                       <td>' . $accountInfo["Email"] . '</td>
                       <td>' . $accountInfo["Discord_Name"] . '</td>
-                      
+                      <td>' . $studentInfo["Gender"] . '</td>
                   </tr>';
 
                   echo '<tr>
-                      <th>Gender</th>
                       <th>Hispanic/Latino</th> 
                       <th>Race</th> 
                       <th>U.S. Citizen</th> 
@@ -169,10 +185,10 @@ if ($result = $conn->query($query)) {
                       <th>GPA</th>
                       <th>Major</th>
                       <th>Minor 1</th>
+                      <th>Minor 2</th>
                   </tr>';
 
                   echo'<tr>
-                    <td>' . $studentInfo["Gender"] . '</td>
                     <td>' . $studentInfo["Hispanic/Latino"] . '</td> 
                     <td>' . $studentInfo["Race"] . '</td> 
                     <td>' . $studentInfo["U.S._Citizen"] . '</td> 
@@ -181,11 +197,11 @@ if ($result = $conn->query($query)) {
                     <td>' . $studentInfo["GPA"] . '</td>
                     <td>' . $studentInfo["Major"] . '</td>
                     <td>' . $studentInfo["Minor1"] . '</td>
+                    <td>' . $studentInfo["Minor2"] . '</td>
                 </tr>';
                   
 
                   echo '<tr>
-                      <th>Minor 2</th>
                       <th>Expected Graduation Year</th>
                       <th>School</th>
                       <th>Classification</th>
@@ -194,7 +210,6 @@ if ($result = $conn->query($query)) {
                   </tr>';
 
                   echo'<tr> 
-                    <td>' . $studentInfo["Minor2"] . '</td>
                     <td>' . $studentInfo["Expected_Graduation"] . '</td>
                     <td>' . $studentInfo["School"] . '</td> 
                     <td>' . $studentInfo["Classification"] . '</td> 
