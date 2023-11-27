@@ -1,4 +1,5 @@
 <?php
+session_start();
 include_once 'dbh.inc.php';
 
 function usernameExists($conn, $username){
@@ -112,6 +113,7 @@ function emptyInputSignup($Fname, $MI, $LName, $Username, $Password, $userType, 
 }
 
 function createUser($conn, $FName, $MI, $LName, $Username, $Password, $userType, $Email, $Discord){
+    
     $sql = 'INSERT INTO user(First_Name, M_Initial, Last_Name, Username, Passwords, User_Type, Email, Discord_Name) VALUES (?,?,?,?,?,?,?,?)';
     $stmt = mysqli_stmt_init($conn);
     if(!mysqli_stmt_prepare($stmt, $sql)){
@@ -122,6 +124,14 @@ function createUser($conn, $FName, $MI, $LName, $Username, $Password, $userType,
     mysqli_stmt_bind_param($stmt, "ssssssss", $FName, $MI, $LName, $Username, $Password, $userType, $Email, $Discord);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
-    header("location: ../signup.php?error=signupsuccess");
-    exit();
+    if($userType === "Student"){
+        session_start();
+        $_SESSION["Username"] = $Username;
+        header("location: ../studentsignup.php");
+        exit();
+    }
+    else{
+        header("location: ../signup.php?error=signupsuccess");
+        exit();
+    }
 }

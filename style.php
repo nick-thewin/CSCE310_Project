@@ -2,6 +2,10 @@
 header("Content-type: text/css");
 ?>
 
+body {
+  font-family: Arial, sans-serif;
+}
+
 table {
   border-collapse: collapse;
   border: 2px solid rgb(200, 200, 200);
