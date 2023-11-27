@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 25, 2023 at 07:55 AM
+-- Generation Time: Nov 27, 2023 at 05:13 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -102,22 +102,30 @@ CREATE TABLE `class_enrollment` (
 
 CREATE TABLE `collegestudent` (
   `UIN` int(128) NOT NULL,
-  `Gender` varchar(128) NOT NULL,
-  `Hispanic/Latino` binary(128) NOT NULL,
-  `Race` varchar(128) NOT NULL,
-  `U.S._Citizen` binary(128) NOT NULL,
-  `First_Generation` binary(128) NOT NULL,
-  `DOB` date NOT NULL,
-  `GPA` float NOT NULL,
-  `Major` varchar(128) NOT NULL,
-  `Minor1` varchar(128) NOT NULL,
-  `Minor2` varchar(128) NOT NULL,
-  `Expected_Graduation` smallint(128) NOT NULL,
-  `School` varchar(128) NOT NULL,
-  `Classification` varchar(128) NOT NULL,
-  `Phone` int(128) NOT NULL,
-  `Student_Type` varchar(128) NOT NULL
+  `Gender` varchar(128) DEFAULT NULL,
+  `Hispanic/Latino` binary(1) DEFAULT NULL,
+  `Race` varchar(128) DEFAULT NULL,
+  `U.S._Citizen` binary(1) DEFAULT NULL,
+  `First_Generation` binary(1) DEFAULT NULL,
+  `DOB` date DEFAULT NULL,
+  `GPA` float DEFAULT NULL,
+  `Major` varchar(128) DEFAULT NULL,
+  `Minor1` varchar(128) DEFAULT NULL,
+  `Minor2` varchar(128) DEFAULT NULL,
+  `Expected_Graduation` smallint(128) DEFAULT NULL,
+  `School` varchar(128) DEFAULT NULL,
+  `Classification` varchar(128) DEFAULT NULL,
+  `Phone` int(255) DEFAULT NULL,
+  `Student_Type` varchar(128) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `collegestudent`
+--
+
+INSERT INTO `collegestudent` (`UIN`, `Gender`, `Hispanic/Latino`, `Race`, `U.S._Citizen`, `First_Generation`, `DOB`, `GPA`, `Major`, `Minor1`, `Minor2`, `Expected_Graduation`, `School`, `Classification`, `Phone`, `Student_Type`) VALUES
+(987654325, 'Male', 0x30, 'American', 0x30, 0x31, '2000-02-29', 4, 'Computer Science', NULL, NULL, 2024, 'College of Engineering', 'Senior', 8675309, 'Undergrad'),
+(987654334, 'Male', 0x30, 'White', 0x31, 0x30, '2001-05-09', 2.67, 'Construction', 'Business', NULL, 2026, 'Texas A&M', 'Sophomore', 2147483647, 'Undergraduate');
 
 -- --------------------------------------------------------
 
@@ -201,6 +209,14 @@ CREATE TABLE `programs` (
   `Description` varchar(128) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `programs`
+--
+
+INSERT INTO `programs` (`Program_Num`, `Name`, `Description`) VALUES
+(5, 'Program', 'This is a test program'),
+(6, 'Program2', 'This is another test program');
+
 -- --------------------------------------------------------
 
 --
@@ -239,7 +255,22 @@ INSERT INTO `user` (`UIN`, `First_Name`, `M_Initial`, `Last_Name`, `Username`, `
 (123456789, 'TES', 'T', 'ING', 'testing123', 'password', 'Admin', 'testing1234@hotmail.com', 'websitetester#1234'),
 (123456790, 'Test', 'I', 'Ng', 'anothertester', 'password', 'Student', 'anothertester@outlook.com', 'copytester#1111'),
 (987654322, 'Hunter', 'M', 'Pearson', 'hunterpearson36', 'secretpassworddontsteal', 'Student', 'hunterpearson36@gmail.com', 'LeahciMx'),
-(987654323, 'Dave', 'L', 'Scy', 'davidls', 'p', 'Student', 'davidscy@hotmail.com', 'daveyboi');
+(987654323, 'Dave', 'L', 'Scy', 'davidlcs', 'p', 'Student', 'davidscy@hotmail.com', 'daveyboi'),
+(987654325, 'Joseph', 'F', 'May', 'joef', 'JOEY', 'Student', 'joeyfm@gmail.com', 'joebrr'),
+(987654334, 'Jake', 'J', 'Johnson', 'jjjohnson', 'p', 'Student', 'jjj@gmail.com', 'jjjohnson');
+
+--
+-- Triggers `user`
+--
+DELIMITER $$
+CREATE TRIGGER `after_user_insert` AFTER INSERT ON `user` FOR EACH ROW BEGIN
+    IF NEW.User_Type = 'Student' THEN
+        INSERT INTO `collegestudent` (`UIN`, `Gender`, `Hispanic/Latino`, `Race`, `U.S._Citizen`, `First_Generation`, `DOB`, `GPA`, `Major`, `Minor1`, `Minor2`, `Expected_Graduation`, `School`, `Classification`, `Phone`, `Student_Type`)
+        VALUES (NEW.UIN, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+    END IF;
+END
+$$
+DELIMITER ;
 
 --
 -- Indexes for dumped tables
@@ -334,10 +365,16 @@ ALTER TABLE `user`
 --
 
 --
+-- AUTO_INCREMENT for table `programs`
+--
+ALTER TABLE `programs`
+  MODIFY `Program_Num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `UIN` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=987654324;
+  MODIFY `UIN` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=987654335;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
