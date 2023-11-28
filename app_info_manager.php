@@ -2,13 +2,32 @@
   include_once('header.php');
   include_once 'includes/dbh.inc.php';
 ?>
-<h3>Insert Application</h3>
+<h3>Insert Program Application</h3>
   <form action="includes/app_info_manager.inc.php" method="post">
-    <label for="Program_Num">Application Name: </label><br>
-    <input type="text" id="Program_Name" name="Program_Name"><br>
-    <label for="Program_Desc">Application Description: </label><br>
-    <input type="text" id="Program_Desc" name="Program_Desc"><br>
-    <button type="insert_program" name="insert_program">Submit</button>
+    <label for="App_Name">Application Name: </label><br>
+    <input type="text" id="App_Name" name="App_Name"><br>
+    <label for="Program_Num">Program Number: </label><br>
+    <select id="Program_Num" name="Program_Num">
+      <?php
+      $sql = "SELECT * FROM programs";
+      $result = $conn->query($sql);
+      // Generate options for the dropdown based on database data
+      if ($result->num_rows > 0) {
+          while ($row = $result->fetch_assoc()) {
+              echo '<option value="' . $row['Program_Num'] . '">' . $row['Name'] . '</option>';
+          }
+      } else {
+          echo '<option value="">No programs available</option>';
+      }
+      ?>
+    </select><br>
+    <label for="Uncom_Cert">Are you currently enrolled in other uncompleted certifications sponsored by the Cybersecurity Center? </label><br>
+    <input type="text" id="Uncom_Cert" name="Uncom_Cert"><br>
+    <label for="Com_Cert">Have you completed any cybersecurity industy certifications via the Cybersecurity Center? </label><br>
+    <input type="text" id="Com_Cert" name="Com_Cert"><br>
+    <label for="Purpose_Statment">Purpose Statement: </label><br>
+    <input type="text" id="Purpose_Statment" name="Purpose_Statment"><br>
+    <button type="Apply" name="Apply">Submit</button>
   </form>
   <br>
 
