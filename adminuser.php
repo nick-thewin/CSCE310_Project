@@ -31,6 +31,11 @@ if ($result = $conn->query($query)) {
             box-sizing: border-box;
         }
 
+        .required {
+            font-size: 11px;
+            color: red;
+        }
+
         .container {
             display: flex;
             justify-content: space-around;
@@ -60,7 +65,8 @@ if ($result = $conn->query($query)) {
         <div class="column1">
         <h3>Update User Role:</h3>
             <form action="includes/user.inc.php" method="post">
-              <label for="uin">UIN: </label><br>
+              <label for="uin">UIN: </label>
+              <label class = "required">Required</label><br>
               <input type="number" id="uin" name="uin"><br>
               <label for="role">Role: </label><br>
               <input type="text" id="role" name="role"><br>
@@ -83,7 +89,8 @@ if ($result = $conn->query($query)) {
 
         <h3>Update User Details:</h3>
             <form action="includes/user.inc.php" method="post">
-              <label for="UIN">UIN: </label><br>
+              <label for="UIN">UIN: </label>
+              <label class = "required">Required</label><br>
               <input type="text" id="uin" name="uin"><br>
               <label for="first">First Name: </label><br>
               <input type="text" id="first" name="first"><br>
@@ -116,7 +123,8 @@ if ($result = $conn->query($query)) {
 
         <h3>Remove Access:</h3>
             <form action="includes/user.inc.php" method="post">
-              <label for="uin">UIN: </label><br>
+              <label for="uin">UIN: </label>
+              <label class = "required">Required</label><br>
               <input type="number" id="uin" name="uin"><br>
               <button type="removeaccess" name="removeaccess">Submit</button>
             </form>
@@ -137,7 +145,8 @@ if ($result = $conn->query($query)) {
 
         <h3>Delete Account:</h3>
             <form action="includes/user.inc.php" method="post">
-              <label for="uin">UIN: </label><br>
+              <label for="uin">UIN: </label>
+              <label class = "required">Required</label><br>
               <input type="number" id="uin" name="uin"><br>
               <button type="deleteaccount" name="deleteaccount">Submit</button>
             </form>

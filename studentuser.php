@@ -41,6 +41,11 @@ if ($result = $conn->query($query)) {
             box-sizing: border-box;
         }
 
+        .required {
+            font-size: 11px;
+            color: red;
+        }
+
         .container {
             display: flex;
             justify-content: space-around;
@@ -48,12 +53,16 @@ if ($result = $conn->query($query)) {
         }
 
         .column1 {
+            max-height: 750px;
+            overflow: auto;
             width: 25%;
-            padding: 20px;
+            padding: 10px;
             border: 1px solid #ccc;
         }
 
         .column2 {
+            max-height: 500px;
+            overflow: auto;
             width: 70%;
             padding: 20px;
             border: 1px solid #ccc;
@@ -66,9 +75,11 @@ if ($result = $conn->query($query)) {
         <div class="column1">
         <h3>Change Login Credentials:</h3>
             <form action="includes/user.inc.php" method="post">
-              <label for="New Username">New Username: </label><br>
+              <label for="New Username">New Username: </label>
+              <label class = "required">Required</label><br>
               <input type="text" id="username" name="username"><br>
-              <label for="New Password">New Password: </label><br>
+              <label for="New Password">New Password: </label>
+              <label class = "required">Required</label><br>
               <input type="text" id="password" name="password"><br>
               <button type="updatelogin" name="updatelogin">Submit</button>
             </form>
@@ -95,25 +106,31 @@ if ($result = $conn->query($query)) {
               <input type="text" id="email" name="email"><br>
               <label for="Discord Name">Discord Name: </label><br>
               <input type="text" id="discord_name" name="discord_name"><br>
-              <label for="gpa">GPA:</label><br>
-              <input type="number" id="gpa" name="gpa" step="any"><br>
-              <label for = "major"> Major: </label><br>
-              <input type = "text" name = "major"><br>
-              <label for = "minor1"> Minor 1: </label><br>
-              <input type = "text" name = "minor1"><br>
-              <label for = "minor2"> Minor 2: </label><br>
-              <input type = "text" name = "minor2"><br>
-              <label for="grad">Anticipated Graduation Year:</label><br>
-              <input type="number" id="grad" name="grad" min="2023" max="2099"><br>
-              <label for = "school"> School: </label><br>
-              <input type = "text" name = "school"><br>
-              <label for = "classification"> Classification: </label><br>
-              <input type = "text" name = "classification"><br>
-              <label for = "phone"> Phone Number: </label><br>
-              <input type = "number" name = "phone"><br>
-              <label for = "studenttype"> Type of Student: </label><br>
-              <input type = "text" name = "studenttype"><br>
-              <button type="updateinfo" name="updateinfo">Submit</button>
+              <?php
+              if($_SESSION["userPerm"] === "Student"){
+                echo'
+                <label for="gpa">GPA:</label><br>
+                <input type="number" id="gpa" name="gpa" step="any"><br>
+                <label for = "major"> Major: </label><br>
+                <input type = "text" name = "major"><br>
+                <label for = "minor1"> Minor 1: </label><br>
+                <input type = "text" name = "minor1"><br>
+                <label for = "minor2"> Minor 2: </label><br>
+                <input type = "text" name = "minor2"><br>
+                <label for="grad">Anticipated Graduation Year:</label><br>
+                <input type="number" id="grad" name="grad" min="2023" max="2099"><br>
+                <label for = "school"> School: </label><br>
+                <input type = "text" name = "school"><br>
+                <label for = "classification"> Classification: </label><br>
+                <input type = "text" name = "classification"><br>
+                <label for = "phone"> Phone Number: </label><br>
+                <input type = "number" name = "phone"><br>
+                <label for = "studenttype"> Type of Student: </label><br>
+                <input type = "text" name = "studenttype"><br>
+                <button type="updateinfo" name="updateinfo">Submit</button>
+                ';
+              }
+              ?>
             </form>
 
             <?php
@@ -172,50 +189,55 @@ if ($result = $conn->query($query)) {
                       <td>' . $accountInfo["Username"] . '</td>
                       <td>' . $accountInfo["Passwords"] . '</td>
                       <td>' . $accountInfo["Email"] . '</td>
-                      <td>' . $accountInfo["Discord_Name"] . '</td>
-                      <td>' . $studentInfo["Gender"] . '</td>
-                  </tr>';
+                      <td>' . $accountInfo["Discord_Name"] . '</td>';
 
-                  echo '<tr>
-                      <th>Hispanic/Latino</th> 
-                      <th>Race</th> 
-                      <th>U.S. Citizen</th> 
-                      <th>First Generation</th>
-                      <th>Date of Birth</th>
-                      <th>GPA</th>
-                      <th>Major</th>
-                      <th>Minor 1</th>
-                      <th>Minor 2</th>
-                  </tr>';
+                      if($_SESSION["userPerm"] === "Student"){
+                        echo '<td>' . $studentInfo["Gender"] . '</td>';
+                      }
+                  echo'</tr>';
 
-                  echo'<tr>
-                    <td>' . $studentInfo["Hispanic/Latino"] . '</td> 
-                    <td>' . $studentInfo["Race"] . '</td> 
-                    <td>' . $studentInfo["U.S._Citizen"] . '</td> 
-                    <td>' . $studentInfo["First_Generation"] . '</td> 
-                    <td>' . $studentInfo["DOB"] . '</td>
-                    <td>' . $studentInfo["GPA"] . '</td>
-                    <td>' . $studentInfo["Major"] . '</td>
-                    <td>' . $studentInfo["Minor1"] . '</td>
-                    <td>' . $studentInfo["Minor2"] . '</td>
-                </tr>';
-                  
+                  if($_SESSION["userPerm"] === "Student"){
+                    echo '<tr>
+                        <th>Hispanic/Latino</th> 
+                        <th>Race</th> 
+                        <th>U.S. Citizen</th> 
+                        <th>First Generation</th>
+                        <th>Date of Birth</th>
+                        <th>GPA</th>
+                        <th>Major</th>
+                        <th>Minor 1</th>
+                        <th>Minor 2</th>
+                    </tr>';
 
-                  echo '<tr>
-                      <th>Expected Graduation Year</th>
-                      <th>School</th>
-                      <th>Classification</th>
-                      <th>Phone</th>
-                      <th>Student Type</th>
-                  </tr>';
+                    echo'<tr>
+                        <td>' . $studentInfo["Hispanic/Latino"] . '</td> 
+                        <td>' . $studentInfo["Race"] . '</td> 
+                        <td>' . $studentInfo["U.S._Citizen"] . '</td> 
+                        <td>' . $studentInfo["First_Generation"] . '</td> 
+                        <td>' . $studentInfo["DOB"] . '</td>
+                        <td>' . $studentInfo["GPA"] . '</td>
+                        <td>' . $studentInfo["Major"] . '</td>
+                        <td>' . $studentInfo["Minor1"] . '</td>
+                        <td>' . $studentInfo["Minor2"] . '</td>
+                    </tr>';
+                    
 
-                  echo'<tr> 
-                    <td>' . $studentInfo["Expected_Graduation"] . '</td>
-                    <td>' . $studentInfo["School"] . '</td> 
-                    <td>' . $studentInfo["Classification"] . '</td> 
-                    <td>' . $studentInfo["Phone"] . '</td> 
-                    <td>' . $studentInfo["Student_Type"] . '</td> 
-                </tr>';
+                    echo '<tr>
+                        <th>Expected Graduation Year</th>
+                        <th>School</th>
+                        <th>Classification</th>
+                        <th>Phone</th>
+                        <th>Student Type</th>
+                    </tr>';
+
+                    echo'<tr> 
+                        <td>' . $studentInfo["Expected_Graduation"] . '</td>
+                        <td>' . $studentInfo["School"] . '</td> 
+                        <td>' . $studentInfo["Classification"] . '</td> 
+                        <td>' . $studentInfo["Phone"] . '</td> 
+                        <td>' . $studentInfo["Student_Type"] . '</td> 
+                    </tr>';
+                  }
               }
               ?>
         </div>

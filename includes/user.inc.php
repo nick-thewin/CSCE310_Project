@@ -1,6 +1,7 @@
 <?php
 
 if(isset($_POST['updatelogin'])){
+    ob_start();
 
     $username = $_POST['username'];
     $password = $_POST['password'];
@@ -60,6 +61,7 @@ if(isset($_POST['updatelogin'])){
 
     header("location: ../studentuser.php?error=changesuccess");
     exit();
+    ob_end_flush();
 
 }
 

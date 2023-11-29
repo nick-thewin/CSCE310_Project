@@ -8,23 +8,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .required {
+            font-size: 11px;
+            color: red;
+        }
+    </style>
 </head>
 <body>
         <h2>New User Sign Up:</h2>
         <form action = "includes/signup.inc.php" method = "post">
-            <input type = "text" name = "FName" placeholder = "First Name"><br>
-            <input type = "text" maxlength = "1" name = "MI" placeholder = "Middle Initial"><br>
-            <input type = "text" name = "LName" placeholder = "Last Name"><br>
-            <input type = "text" name = "Username" placeholder = "Username"><br>
-            <input type = "text" name = "Password" placeholder = "Password"><br>
-            <label for="userType">I am a:</label>
+            <label>First Name: </label>
+            <label class = "required">Required</label><br>
+            <input type = "text" name = "FName"><br>
+            <label>Middle Initial: </label>
+            <label class = "required">Required</label><br>
+            <input type = "text" maxlength = "1" name = "MI"><br>
+            <label>Last Name: </label>
+            <label class = "required">Required</label><br>
+            <input type = "text" name = "LName"><br>
+            <label>Username: </label>
+            <label class = "required">Required</label><br>
+            <input type = "text" name = "Username"><br>
+            <label>Password: </label>
+            <label class = "required">Required</label><br>
+            <input type = "text" name = "Password"><br>
+            <label>User Type: </label>
+            <label class = "required">Required</label><br>
             <select id="userType" name="userType">
                 <option value="Student">College Student</option>
                 <option value="Highschool">High School</option>
                 <option value="Other">Other</option>
             </select><br>
-            <input type = "text" name = "Email" placeholder = "Email"><br>
-            <input type = "text" name = "Discord" placeholder = "Discord"><br>
+            <label>Email: </label>
+            <label class = "required">Required</label><br>
+            <input type = "text" name = "Email"><br>
+            <label>Discord: </label>
+            <label class = "required">Required</label><br>
+            <input type = "text" name = "Discord"><br>
             <button type = "createAccount" name = "createAccount">Create Account</button>
         </form>
 
