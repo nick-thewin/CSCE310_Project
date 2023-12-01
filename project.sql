@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 01, 2023 at 03:33 PM
+-- Generation Time: Dec 01, 2023 at 03:39 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -279,6 +279,12 @@ CREATE TRIGGER `after_user_insert` AFTER INSERT ON `user` FOR EACH ROW BEGIN
         INSERT INTO `collegestudent` (`UIN`, `Gender`, `Hispanic/Latino`, `Race`, `U.S._Citizen`, `First_Generation`, `DOB`, `GPA`, `Major`, `Minor1`, `Minor2`, `Expected_Graduation`, `School`, `Classification`, `Phone`, `Student_Type`)
         VALUES (NEW.UIN, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
     END IF;
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `delete_collegestudent` BEFORE DELETE ON `user` FOR EACH ROW BEGIN
+    DELETE FROM collegestudent WHERE UIN = OLD.UIN;
 END
 $$
 DELIMITER ;
