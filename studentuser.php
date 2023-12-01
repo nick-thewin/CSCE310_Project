@@ -3,23 +3,12 @@ include_once 'header.php';
 include_once 'includes/dbh.inc.php';
 
 // Retrieve account information
-$query = "SELECT * FROM user WHERE UIN = " . $_SESSION["userid"] . ";";
+$query = "SELECT * FROM user_college_info WHERE UIN = " . $_SESSION["userid"] . ";";
 $accountInfo = [];
 
 if ($result = $conn->query($query)) {
     while ($row = $result->fetch_assoc()) {
         $accountInfo = $row;
-    }
-    $result->free();
-}
-
-// Retrieve student information
-$query = "SELECT * FROM collegestudent WHERE UIN = " . $_SESSION["userid"] . ";";
-$studentInfo = [];
-
-if ($result = $conn->query($query)) {
-    while ($row = $result->fetch_assoc()) {
-        $studentInfo = $row;
     }
     $result->free();
 }
@@ -184,15 +173,15 @@ if ($result = $conn->query($query)) {
                   echo '<tr> 
                       <td>' . $accountInfo["UIN"] . '</td> 
                       <td>' . $accountInfo["First_Name"] . '</td> 
-                      <td>' . $accountInfo["M_Initial"] . '</td> 
+                      <td>' . $accountInfo["Middle_Initial"] . '</td> 
                       <td>' . $accountInfo["Last_Name"] . '</td> 
                       <td>' . $accountInfo["Username"] . '</td>
-                      <td>' . $accountInfo["Passwords"] . '</td>
+                      <td>' . $accountInfo["Password"] . '</td>
                       <td>' . $accountInfo["Email"] . '</td>
                       <td>' . $accountInfo["Discord_Name"] . '</td>';
 
                       if($_SESSION["userPerm"] === "Student"){
-                        echo '<td>' . $studentInfo["Gender"] . '</td>';
+                        echo '<td>' . $accountInfo["Gender"] . '</td>';
                       }
                   echo'</tr>';
 
@@ -210,15 +199,15 @@ if ($result = $conn->query($query)) {
                     </tr>';
 
                     echo'<tr>
-                        <td>' . $studentInfo["Hispanic/Latino"] . '</td> 
-                        <td>' . $studentInfo["Race"] . '</td> 
-                        <td>' . $studentInfo["U.S._Citizen"] . '</td> 
-                        <td>' . $studentInfo["First_Generation"] . '</td> 
-                        <td>' . $studentInfo["DOB"] . '</td>
-                        <td>' . $studentInfo["GPA"] . '</td>
-                        <td>' . $studentInfo["Major"] . '</td>
-                        <td>' . $studentInfo["Minor1"] . '</td>
-                        <td>' . $studentInfo["Minor2"] . '</td>
+                        <td>' . $accountInfo["Hispanic_Latino"] . '</td> 
+                        <td>' . $accountInfo["Race"] . '</td> 
+                        <td>' . $accountInfo["U_S_Citizen"] . '</td> 
+                        <td>' . $accountInfo["First_Generation"] . '</td> 
+                        <td>' . $accountInfo["Date_of_Birth"] . '</td>
+                        <td>' . $accountInfo["GPA"] . '</td>
+                        <td>' . $accountInfo["Major"] . '</td>
+                        <td>' . $accountInfo["Minor1"] . '</td>
+                        <td>' . $accountInfo["Minor2"] . '</td>
                     </tr>';
                     
 
@@ -231,11 +220,11 @@ if ($result = $conn->query($query)) {
                     </tr>';
 
                     echo'<tr> 
-                        <td>' . $studentInfo["Expected_Graduation"] . '</td>
-                        <td>' . $studentInfo["School"] . '</td> 
-                        <td>' . $studentInfo["Classification"] . '</td> 
-                        <td>' . $studentInfo["Phone"] . '</td> 
-                        <td>' . $studentInfo["Student_Type"] . '</td> 
+                        <td>' . $accountInfo["Expected_Graduation"] . '</td>
+                        <td>' . $accountInfo["School"] . '</td> 
+                        <td>' . $accountInfo["Classification"] . '</td> 
+                        <td>' . $accountInfo["Phone"] . '</td> 
+                        <td>' . $accountInfo["Student_Type"] . '</td> 
                     </tr>';
                   }
               }

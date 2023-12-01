@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 01, 2023 at 06:57 AM
+-- Generation Time: Dec 01, 2023 at 03:33 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -132,8 +132,9 @@ CREATE TABLE `collegestudent` (
 --
 
 INSERT INTO `collegestudent` (`UIN`, `Gender`, `Hispanic/Latino`, `Race`, `U.S._Citizen`, `First_Generation`, `DOB`, `GPA`, `Major`, `Minor1`, `Minor2`, `Expected_Graduation`, `School`, `Classification`, `Phone`, `Student_Type`) VALUES
+(987654322, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (987654325, 'Male', 0x30, 'American', 0x30, 0x31, '2000-02-29', 4, 'Computer Science', NULL, NULL, 2024, 'College of Engineering', 'Senior', 8675309, 'Undergrad'),
-(987654334, 'Male', 0x30, 'White', 0x31, 0x30, '2001-05-09', 2.67, 'Construction', 'Business', NULL, 2026, 'Texas A&M', 'Sophomore', 2147483647, 'Undergraduate');
+(987654334, 'Male', 0x30, 'White', 0x31, 0x30, '2001-05-09', 2.65, 'Construction', 'Business', NULL, 2026, 'Texas A&M', 'Sophomore', 912, 'Graduate');
 
 -- --------------------------------------------------------
 
@@ -282,6 +283,47 @@ END
 $$
 DELIMITER ;
 
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `user_college_info`
+-- (See below for the actual view)
+--
+CREATE TABLE `user_college_info` (
+`UIN` int(10)
+,`First_Name` varchar(128)
+,`Middle_Initial` char(1)
+,`Last_Name` varchar(128)
+,`Username` varchar(128)
+,`Password` varchar(128)
+,`Email` varchar(128)
+,`Discord_Name` varchar(128)
+,`Gender` varchar(128)
+,`Hispanic_Latino` binary(1)
+,`Race` varchar(128)
+,`U_S_Citizen` binary(1)
+,`First_Generation` binary(1)
+,`Date_of_Birth` date
+,`GPA` float
+,`Major` varchar(128)
+,`Minor1` varchar(128)
+,`Minor2` varchar(128)
+,`Expected_Graduation` smallint(128)
+,`School` varchar(128)
+,`Classification` varchar(128)
+,`Phone` int(255)
+,`Student_Type` varchar(128)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `user_college_info`
+--
+DROP TABLE IF EXISTS `user_college_info`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `user_college_info`  AS SELECT `u`.`UIN` AS `UIN`, `u`.`First_Name` AS `First_Name`, `u`.`M_Initial` AS `Middle_Initial`, `u`.`Last_Name` AS `Last_Name`, `u`.`Username` AS `Username`, `u`.`Passwords` AS `Password`, `u`.`Email` AS `Email`, `u`.`Discord_Name` AS `Discord_Name`, `cs`.`Gender` AS `Gender`, `cs`.`Hispanic/Latino` AS `Hispanic_Latino`, `cs`.`Race` AS `Race`, `cs`.`U.S._Citizen` AS `U_S_Citizen`, `cs`.`First_Generation` AS `First_Generation`, `cs`.`DOB` AS `Date_of_Birth`, `cs`.`GPA` AS `GPA`, `cs`.`Major` AS `Major`, `cs`.`Minor1` AS `Minor1`, `cs`.`Minor2` AS `Minor2`, `cs`.`Expected_Graduation` AS `Expected_Graduation`, `cs`.`School` AS `School`, `cs`.`Classification` AS `Classification`, `cs`.`Phone` AS `Phone`, `cs`.`Student_Type` AS `Student_Type` FROM (`user` `u` join `collegestudent` `cs` on(`u`.`UIN` = `cs`.`UIN`)) ;
+
 --
 -- Indexes for dumped tables
 --
@@ -368,7 +410,8 @@ ALTER TABLE `track`
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
-  ADD PRIMARY KEY (`UIN`);
+  ADD PRIMARY KEY (`UIN`),
+  ADD KEY `user_info_index` (`UIN`,`First_Name`,`M_Initial`,`Last_Name`,`User_Type`,`Email`,`Discord_Name`);
 
 --
 -- AUTO_INCREMENT for dumped tables

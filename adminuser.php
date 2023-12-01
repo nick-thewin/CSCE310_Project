@@ -3,7 +3,7 @@ include_once 'header.php';
 include_once 'includes/dbh.inc.php';
 
 // Retrieve account information
-$query = "SELECT * FROM user;";
+$query = "SELECT UIN, First_Name, M_Initial, Last_Name, User_Type, Email, Discord_Name FROM user";
 $adminInfo = [];
 $i = 0;
 if ($result = $conn->query($query)) {
