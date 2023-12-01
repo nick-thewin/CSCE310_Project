@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 27, 2023 at 05:13 AM
+-- Generation Time: Dec 01, 2023 at 06:57 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -35,6 +35,14 @@ CREATE TABLE `applications` (
   `Com_Cert` varchar(128) NOT NULL,
   `Purpose_Statement` longtext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `applications`
+--
+
+INSERT INTO `applications` (`App_Num`, `Program_Num`, `UIN`, `Uncom_Cert`, `Com_Cert`, `Purpose_Statement`) VALUES
+(1, 5, 123456790, 'no', 'no', 'test'),
+(3, 6, 123456790, 'no', '1', '1');
 
 -- --------------------------------------------------------
 
@@ -206,16 +214,18 @@ CREATE TABLE `intern_app` (
 CREATE TABLE `programs` (
   `Program_Num` int(11) NOT NULL,
   `Name` varchar(128) NOT NULL,
-  `Description` varchar(128) NOT NULL
+  `Description` varchar(128) NOT NULL,
+  `User_Access` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `programs`
 --
 
-INSERT INTO `programs` (`Program_Num`, `Name`, `Description`) VALUES
-(5, 'Program', 'This is a test program'),
-(6, 'Program2', 'This is another test program');
+INSERT INTO `programs` (`Program_Num`, `Name`, `Description`, `User_Access`) VALUES
+(5, 'Program', 'This is a test program', 1),
+(6, 'Program2', 'This is another test program', 0),
+(8, 'testing1', 'testing', 1);
 
 -- --------------------------------------------------------
 
@@ -365,10 +375,16 @@ ALTER TABLE `user`
 --
 
 --
+-- AUTO_INCREMENT for table `applications`
+--
+ALTER TABLE `applications`
+  MODIFY `App_Num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `programs`
 --
 ALTER TABLE `programs`
-  MODIFY `Program_Num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `Program_Num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `user`
