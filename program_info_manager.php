@@ -17,7 +17,7 @@
   </form>
   <br>
 
-  <h3>Edit Program</h3>
+  <!-- <h3>Edit Program</h3>
     <form action="includes/program_info_manager.inc.php" method="post">
         <label for="Program_Num">Program Number: </label><br>
         <input type="text" id="Program_Num" name="Program_Num"><br>
@@ -26,6 +26,65 @@
         <label for="Program_Desc">Program Description: </label><br>
         <input type="text" id="Program_Desc" name="Program_Desc"><br>
         <button type="edit_program" name="edit_program">Submit</button>
+    </form>
+    <br> -->
+
+    <h3>Edit Program Information</h3>
+    <form action="includes/program_info_manager.inc.php" method="post">
+
+      <!-- Select dropdown for choosing application -->
+      <label for="Program_Num">Choose a program by program number to edit: </label><br>
+      <select id="Program_Num" name="Program_Num">
+          <?php
+          $sql = "SELECT * FROM programs";
+          $result = $conn->query($sql);
+
+          // Generate options for the dropdown based on database data
+          if ($result->num_rows > 0) {
+              while ($row = $result->fetch_assoc()) {
+                  echo '<option value="' . $row['Program_Num'] . '">' . $row['Program_Num'] . '</option>';
+              }
+          } else {
+              echo '<option value="">No programs available</option>';
+          }
+          ?>
+      </select><br>
+
+      <!-- Button to fetch and display App_Num data -->
+      <button type="button" onclick="fetchAndDisplayData()">Display Program Information</button><br>
+
+      <label for="Program_Name_Edit">Program Name: </label><br>
+      <input type="text" id="Program_Name_Edit" name="Program_Name_Edit"><br>
+      <label for="Program_Desc_Edit">Program Description: </label><br>
+      <input type="text" id="Program_Desc_Edit" name="Program_Desc_Edit"><br>
+      <label for="User_Access_Edit">User Access: </label><br>
+      <select id="User_Access_Edit" name="User_Access_Edit">
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+      </select><br>
+      <script>
+          function fetchAndDisplayData() {
+              var selectedProgramNum = document.getElementById("Program_Num").value;
+
+              // Use AJAX to fetch data based on selectedProgramNum
+              var xhr = new XMLHttpRequest();
+
+              xhr.onreadystatechange = function () {
+                  if (xhr.readyState === 4 && xhr.status === 200) {
+                      // Parse the JSON response
+                      var data = JSON.parse(xhr.responseText);
+
+                      // Populate form fields with the fetched data
+                      document.getElementById("Program_Name_Edit").value = data.Name;
+                      document.getElementById("Program_Desc_Edit").value = data.Description;
+                      document.getElementById("User_Access_Edit").value = data.User_Access;
+                  }
+              };
+              xhr.open("GET", "includes/program_info_manager.inc.php?Program_Num=" + selectedProgramNum, true);
+              xhr.send();
+          }
+      </script>
+      <button type="edit_program" name="edit_program">Submit</button>
     </form>
     <br>
 

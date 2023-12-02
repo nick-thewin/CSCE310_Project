@@ -45,12 +45,12 @@ if(isset($_POST['Apply'])){
 }
 
 
-if(isset($_POST['edit_app'])){
+if (isset($_POST['edit_app'])) {
     $appNum = $_POST['App_Num'];
-    $programNum = $_POST['Program_Num'];
-    $uncomCert = $_POST['Uncom_Cert'];
-    $comCert = $_POST['Com_Cert'];
-    $purposeStatement = $_POST['Purpose_Statement'];
+    $programNum = $_POST['Program_Num_Edit'];
+    $uncomCert = $_POST['Uncom_Cert_Edit'];
+    $comCert = $_POST['Com_Cert_Edit'];
+    $purposeStatement = $_POST['Purpose_Statement_Edit'];
 
     // Sanitize and validate inputs if needed
 
@@ -64,18 +64,21 @@ if(isset($_POST['edit_app'])){
         if (mysqli_stmt_execute($stmt)) {
             // Success
             mysqli_stmt_close($stmt);
-            echo "Application updated successfully";
+            // Redirect before any output
             header("Location: ../app_info_manager.php");
             exit();
         } else {
             // Error
-            echo "Error: " . mysqli_stmt_error($stmt);
+            echo "An error occurred while updating the application.";
+            // Log the error for debugging (do not expose raw error messages to the user)
+            error_log("Error updating application: " . mysqli_stmt_error($stmt));
         }
     } else {
         // Error preparing statement
-        echo "Error: " . mysqli_error($conn);
+        echo "An error occurred while preparing the update statement.";
+        // Log the error for debugging (do not expose raw error messages to the user)
+        error_log("Error preparing update statement: " . mysqli_error($conn));
     }
-
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["generate_app_report"])) {
@@ -83,6 +86,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["generate_app_report"])
     $appNum = isset($_POST["App_Num"]) ? $_POST["App_Num"] : '';
 
     // Validate or sanitize input if needed
+    $appNum = filter_var($appNum, FILTER_SANITIZE_NUMBER_INT);
+
+    // Check if $appNum is a valid integer
+    if (!filter_var($appNum, FILTER_VALIDATE_INT)) {
+        // Handle the error here
+        echo "Invalid application number.";
+        exit;
+    }
 
     // Retrieve data from the database
     $sql = "SELECT Program_Num, UIN, Uncom_Cert, Com_Cert, Purpose_Statement FROM applications WHERE App_Num = ?";
@@ -145,5 +156,36 @@ if (isset($_POST['delete_app_data'])) {
     
 }
 
-?>
+if (isset($_GET['App_Num'])) {
+    $appNum = $_GET['App_Num'];
 
+    // Fetch data based on the provided App_Num
+    $sql = "SELECT * FROM applications WHERE App_Num = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('s', $appNum);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+
+        // Return relevant data as JSON with "_Edit" names
+        $response = array(
+            'Program_Num' => $row['Program_Num'],
+            'Uncom_Cert' => $row['Uncom_Cert'],
+            'Com_Cert' => $row['Com_Cert'],
+            'Purpose_Statement' => $row['Purpose_Statement']
+        );
+
+        echo json_encode($response);
+    } else {
+        // Handle case when no data is found
+        echo json_encode(array('error' => 'No data found for the given App_Num'));
+    }
+} else {
+    // Handle case when App_Num is not provided
+    echo json_encode(array('error' => 'App_Num parameter is missing'));
+}
+
+
+?>

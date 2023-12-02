@@ -32,21 +32,52 @@ if(isset($_POST['insert_program'])){
 
 }
 
+if (isset($_GET['Program_Num'])) {
+    $programNum = $_GET['Program_Num'];
+
+    // Fetch data based on the provided Program_Num
+    $sql = "SELECT * FROM programs WHERE Program_Num = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('s', $programNum);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+
+        // Return relevant data as JSON
+        $response = array(
+            'Name' => $row['Name'],
+            'Description' => $row['Description'],
+            'User_Access' => $row['User_Access']
+        );
+
+        echo json_encode($response);
+    } else {
+        // Handle case when no data is found
+        echo json_encode(array('error' => 'No data found for the given Program_Num'));
+    }
+} else {
+    // Handle case when Program_Num is not provided
+    echo json_encode(array('error' => 'Program_Num parameter is missing'));
+}
+
 
 if(isset($_POST['edit_program'])){
     $programNum = $_POST['Program_Num'];
-    $programName = $_POST['Program_Name'];
-    $programDesc = $_POST['Program_Desc'];
+    $programName = $_POST['Program_Name_Edit'];
+    $programDesc = $_POST['Program_Desc_Edit'];
+    $userAccess = $_POST['User_Access_Edit'];
     
 
     // Sanitize and validate inputs if needed
 
     // Insert into database
-    $sql = "UPDATE `programs` SET `Name`=?,`Description`=? WHERE `Program_Num`=?";
+    $sql = "UPDATE `programs` SET `Name`=?,`Description`=?, `User_Access`=? WHERE `Program_Num`=?";
     $stmt = mysqli_stmt_init($conn);
 
     if (mysqli_stmt_prepare($stmt, $sql)) {
-        mysqli_stmt_bind_param($stmt, "ssi", $programName, $programDesc, $programNum);
+        mysqli_stmt_bind_param($stmt, "ssii", $programName, $programDesc, $userAccess, $programNum);
 
         if (mysqli_stmt_execute($stmt)) {
             // Success
