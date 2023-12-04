@@ -43,7 +43,7 @@ if ($result = $conn->query($query)) {
         }
 
         .column1 {
-            max-height: 4000px;
+            max-height: 600px;
             overflow: auto;
             width: 25%;
             padding: 20px;
@@ -51,11 +51,19 @@ if ($result = $conn->query($query)) {
         }
 
         .column2 {
-            max-height: 500px;
+            max-height: 600px;
             overflow: auto;
             width: 70%;
             padding: 20px;
             border: 1px solid #ccc;
+        }
+
+        .create {
+            display: block;
+            font-size: 15px;
+            padding: 5px 10px;
+            color: black;
+            text-decoration: none;
         }
     </style>
 </head>
@@ -63,13 +71,26 @@ if ($result = $conn->query($query)) {
 <body>
     <div class="container">
         <div class="column1">
+        <button class = "create" onclick="window.location.href='createadmin.php'">Create New Admin</button>
+        <?php
+            if (isset($_GET["error"])) {
+                if ($_GET["error"] == "admincreated") {
+                    echo "<p>New Admin has been created!</p>";
+                }
+            }
+            ?>
+
         <h3>Update User Role:</h3>
             <form action="includes/user.inc.php" method="post">
               <label for="uin">UIN: </label>
               <label class = "required">Required</label><br>
               <input type="number" id="uin" name="uin"><br>
               <label for="role">Role: </label><br>
-              <input type="text" id="role" name="role"><br>
+              <select id="role" name="role">
+                <option value="Student">College Student</option>
+                <option value = "Admin">Admin</option>
+                <option value="Other">Other</option>
+              </select><br>
               <button type="updaterole" name="updaterole">Submit</button>
             </form>
 
@@ -78,8 +99,8 @@ if ($result = $conn->query($query)) {
                 if ($_GET["error"] == "stmtfailed") {
                     echo "<p>Something failed, try again!</p>";
                 } else if ($_GET["error"] == "emptyinput") {
-                    echo "<p>Fill in both fields!</p>";
-                } else if ($_GET["error"] == "changesuccess") {
+                    echo "<p>Fill in UIN field!</p>";
+                } else if ($_GET["error"] == "updatesuccess") {
                     echo "<p>Role has been successfully changed!</p>";
                 } else if ($_GET["error"] == "nomatchinguin") {
                     echo "<p>The given UIN does not exist!</p>";

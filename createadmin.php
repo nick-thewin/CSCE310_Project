@@ -1,5 +1,7 @@
 <?php
 	include_once 'includes/dbh.inc.php';
+    include_once 'includes/functions.inc.php';
+    include_once 'includes/signup.inc.php';
 ?>
 
 <!DOCTYPE html>
@@ -11,7 +13,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
+            margin: 1;
             padding: 0;
             box-sizing: border-box;
         }
@@ -23,7 +25,7 @@
     </style>
 </head>
 <body>
-        <h2>New User Sign Up:</h2>
+        <h2>Create Admin:</h2>
         <form action = "includes/signup.inc.php" method = "post">
             <label>First Name: </label>
             <label class = "required">Required</label><br>
@@ -40,23 +42,14 @@
             <label>Password: </label>
             <label class = "required">Required</label><br>
             <input type = "text" name = "Password"><br>
-            <label>User Type: </label>
-            <label class = "required">Required</label><br>
-            <select id="userType" name="userType">
-                <option value="Student">College Student</option>
-                <option value="Other">Other</option>
-            </select><br>
             <label>Email: </label>
             <label class = "required">Required</label><br>
             <input type = "text" name = "Email"><br>
             <label>Discord: </label>
             <label class = "required">Required</label><br>
             <input type = "text" name = "Discord"><br>
-            <button type = "createAccount" name = "createAccount">Create Account</button>
+            <button type = "createAdmin" name = "createAdmin">Create Admin</button>
         </form>
-
-        <h3>Back to Home</h3>
-        <a href='index.php'>Home</a>
 
         <?php
             if(isset($_GET["error"])){

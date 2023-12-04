@@ -450,7 +450,7 @@ ALTER TABLE `event`
 --
 -- AUTO_INCREMENT for table `event_tracking`
 --
-ALTER TABLE `event_tacking`
+ALTER TABLE `event_tracking`
   MODIFY `ET_Num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --

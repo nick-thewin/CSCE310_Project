@@ -124,3 +124,31 @@ if (isset($_POST["addInfo"])) {
         header("location: ../index.php?error=accountcreated");
     }
 }
+
+if(isset($_POST["createAdmin"])){
+
+    $FName = $_POST["FName"];
+    $MI = $_POST["MI"];
+    $LName = $_POST["LName"];
+    $Username = $_POST["Username"];
+    $Password = $_POST["Password"];
+    $Email = $_POST["Email"];
+    $Discord = $_POST["Discord"];
+    $userType = "Admin";
+    
+    require_once 'dbh.inc.php';
+    require_once 'functions.inc.php';
+
+    if (emptyInputSignup($FName, $MI, $LName, $Username, $Password, $userType, $Email, $Discord) !== false) {
+        header("location: ../createadmin.php?error=emptyinput");
+        exit();
+    }
+    
+    if(usernameExists2($conn,$Username) !== false){
+        header("location: ../createadmin.php?error=usernametaken");
+        exit();
+    }
+
+    createUser($conn, $FName, $MI, $LName, $Username, $Password, $userType, $Email, $Discord);
+
+}

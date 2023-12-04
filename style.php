@@ -57,6 +57,13 @@ ul.navbar li a:hover {
 ul.navbar h2 {
   font-size: 40px; 
   font-weight: bold; 
-  margin-bottom: 20px; 
+  margin-bottom: 10px; 
   color: #0; 
+}
+
+.loggedin {
+  font-size:30;
+  font-weight: bold;
+  margin: 0;
+  margin-bottom: 5px;
 }

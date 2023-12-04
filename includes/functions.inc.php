@@ -130,6 +130,10 @@ function createUser($conn, $FName, $MI, $LName, $Username, $Password, $userType,
         header("location: ../studentsignup.php");
         exit();
     }
+    if($_SESSION["userType"] = "Admin"){
+        header("location: ../adminuser.php?error=admincreated");
+        exit();
+    }
     else{
         header("location: ../signup.php?error=signupsuccess");
         exit();
