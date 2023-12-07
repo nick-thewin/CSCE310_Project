@@ -1,3 +1,9 @@
+<!-- 
+    Author: Nicholas Nguyen
+    UIN: 630003713
+    Description: This code is for the functionality of the Application Info Manager Section of the Student Page
+ -->
+ 
 <?php 
 require_once 'dbh.inc.php';
 require_once 'functions.inc.php';

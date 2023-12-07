@@ -1,8 +1,17 @@
+<!-- 
+    Author: Nicholas Nguyen
+    UIN: 630003713
+    Description: This code is for the Program Information Manager Section of the Admin Page
+ -->
+
 <?php
   include_once('header.php');
   include_once 'includes/dbh.inc.php';
 ?>
+
+<!-- This portion will demonstrate my table "Insert" Query -->
 <h3>Insert Program</h3>
+  <!--  The form will keep track adn store the inputs in a variable-->
   <form action="includes/program_info_manager.inc.php" method="post">
     <label for="Program_Name">Program Name: </label><br>
     <input type="text" id="Program_Name" name="Program_Name"><br>
@@ -13,32 +22,21 @@
         <option value="1">Yes</option>
         <option value="0">No</option>
     </select><br>
+    <!-- When this button is clicked it activated a function in the include file, which performs the query -->
     <button type="insert_program" name="insert_program">Submit</button>
   </form>
   <br>
 
-  <!-- <h3>Edit Program</h3>
-    <form action="includes/program_info_manager.inc.php" method="post">
-        <label for="Program_Num">Program Number: </label><br>
-        <input type="text" id="Program_Num" name="Program_Num"><br>
-        <label for="Program_Name">Program Name: </label><br>
-        <input type="text" id="Program_Name" name="Program_Name"><br>
-        <label for="Program_Desc">Program Description: </label><br>
-        <input type="text" id="Program_Desc" name="Program_Desc"><br>
-        <button type="edit_program" name="edit_program">Submit</button>
-    </form>
-    <br> -->
-
+    <!-- This portion will demonstrate my table "Update" Query -->
     <h3>Edit Program Information</h3>
+    <!--  The form will keep track adn store the inputs in a variable-->
     <form action="includes/program_info_manager.inc.php" method="post">
-
       <!-- Select dropdown for choosing application -->
       <label for="Program_Num">Choose a program by program number to edit: </label><br>
       <select id="Program_Num" name="Program_Num">
           <?php
           $sql = "SELECT * FROM programs";
           $result = $conn->query($sql);
-
           // Generate options for the dropdown based on database data
           if ($result->num_rows > 0) {
               while ($row = $result->fetch_assoc()) {
@@ -84,29 +82,38 @@
               xhr.send();
           }
       </script>
+        <br>
+      <!-- When this button is clicked it activates a function in the include file, which performs the query -->
       <button type="edit_program" name="edit_program">Submit</button>
     </form>
     <br>
 
+    <!-- This portion will demonstrate my table "Select" Query -->
     <h3>Generate Program Report</h3>
+    <!--  The form will keep track and store the inputs in a variable-->
     <form action="includes/program_info_manager.inc.php" method="post">
         <label for="Program_Num">Program Number: </label><br>
         <input type="text" id="Program_Num" name="Program_Num"><br>
+        <!-- When this button is clicked it calls a function in the include which performs the query and generate the report -->
         <button type="generate_program_report" name="generate_program_report">Submit</button>
     </form>
     <br>
 
     
-
+    <!-- This portion will demonstrate my table "Delete" Query and deletes a program from the table -->
     <h3>Delete Program Data</h3>
+    <!--  The form will keep track and store the inputs in a variable-->
     <form action="includes/program_info_manager.inc.php" method="post">
         <label for="Program_Num">Program Number: </label><br>
         <input type="text" id="Program_Num" name="Program_Num"><br>
+        <!-- When this button is clicked it calls a function in the include which performs the query and deletes the desired entity -->
         <button type="delete_program_data" name="delete_program_data">Submit</button>
     </form>
     <br>
 
+    <!-- This portion will demonstrate my table "Update" Query and changes a users access to a program in the table -->
     <h3>Delete/Change Program Access</h3>
+    <!--  The form will keep track and store the inputs in a variable-->
     <form action="includes/program_info_manager.inc.php" method="post">
         <label for="Program_Num">Program Number: </label><br>
         <input type="text" id="Program_Num" name="Program_Num"><br>
@@ -115,6 +122,7 @@
           <option value="1">Yes</option>
           <option value="0">No</option>
         </select><br>
+        <!-- When this button is clicked it calls a function in the include which performs the query and updates "User_Access -->
         <button type="delete_program_access" name="delete_program_access">Submit</button>
     </form>
 

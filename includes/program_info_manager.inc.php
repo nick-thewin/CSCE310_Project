@@ -1,3 +1,9 @@
+<!-- 
+    Author: Nicholas Nguyen
+    UIN: 630003713
+    Description: This code is for the functionality of the Program Information Manager Section of the Admin Page
+ -->
+
 <?php 
 require_once 'dbh.inc.php';
 
