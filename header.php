@@ -28,7 +28,7 @@
 							<p class = 'loggedin'>Logged in as: {$_SESSION['userName']} {$_SESSION['userLast']}<br> UIN: {$_SESSION['userid']}</p>
 							<li><a href='adminuser.php'>User Authentication and Roles</a></li>
 							<li><a href='program_info_manager.php'>Program Information Management</a></li>
-							<li><a href='programprogress.php'>Program Progress Tracking</a></li>
+							<li><a href='admin_programprogress.php'>Program Progress Tracking</a></li>
 							<li><a href='eventmanager.php'>Event management</a></li>";
 					}
 					else if($_SESSION["userPerm"] === "Student"){
@@ -36,7 +36,7 @@
 						    <p class = 'loggedin'>Logged in as: {$_SESSION['userName']} {$_SESSION['userLast']}<br> UIN: {$_SESSION['userid']}</p>
 							<li><a href='studentuser.php'>User Authentication and Roles</a></li>
 							<li><a href='app_info_manager.php'>Application Information Management</a></li>
-							<li><a href='programprogress.php'>Program Progress Tracking</a></li>
+							<li><a href='student_programprogress.php'>Program Progress Tracking</a></li>
 							<li><a href='docmanager.php'>Document Upload and Management</a></li>";
 					}
 

@@ -1,6 +1,6 @@
 <?php
-  include_once('header.php');
-  include_once 'includes/dbh.inc.php';
+  include_once "../header.php";
+  include_once "../includes/dbh.inc.php";
   
   // $sql = "SELECT * FROM user;";
   // $result = mysqli_query($conn, $sql);
@@ -12,7 +12,7 @@
   // }
 ?>
 <h3>Insert Class</h3>
-  <form action="includes/programprogress.inc.php" method="post">
+  <form action="../includes/programprogress.inc.php" method="post">
     <label for="uin">UIN: </label><br>
     <input type="text" id="uin" name="uin"><br>
     <label for="class_id">Class ID: </label><br>
@@ -27,7 +27,7 @@
   </form>
   <br>
   <h3>Insert Internship</h3>
-  <form action="includes/programprogress.inc.php" method="post">
+  <form action="../includes/programprogress.inc.php" method="post">
     <label for="uin">UIN: </label><br>
     <input type="text" id="uin" name="uin"><br>
     <label for="intern_id">Intern ID: </label><br>

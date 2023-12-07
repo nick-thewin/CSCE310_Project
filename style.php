@@ -67,3 +67,76 @@ ul.navbar h2 {
   margin: 0;
   margin-bottom: 5px;
 }
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.required {
+    font-size: 11px;
+    color: red;
+}
+
+.container {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+}
+
+.column1 {
+    max-height: 600px;
+    overflow: auto;
+    width: 25%;
+    padding: 20px;
+    border: 1px solid #ccc;
+}
+
+.column2 {
+    max-height: 600px;
+    overflow: auto;
+    width: 70%;
+    padding: 20px;
+    border: 1px solid #ccc;
+}
+
+.create {
+    display: block;
+    font-size: 15px;
+    padding: 5px 10px;
+    color: black;
+    text-decoration: none;
+}
+
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+}
+
+.tab button:hover {
+  background-color: #ddd;
+}
+
+.tab button.active {
+  background-color: #ccc;
+}
+
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+} 
