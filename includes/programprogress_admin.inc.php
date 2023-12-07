@@ -13,18 +13,18 @@ if(isset($_POST['insert_class'])){
   $bindtypes = "iisss";
   executeSQL($conn, $fields, $sql, $bindtypes);
 } else if(isset($_POST['update_class'])) {
-  $sql = "UPDATE `class_enrollment` SET `UIN` = ?, `Status` = ?, `Semester` = ?, `Year` = ?
-    WHERE `Class_ID` = ?;";
-  $fields = array('uin','status','semester','year','class_id');
+  $sql = "UPDATE `class_enrollment` SET `UIN` = ?, `Class_ID` = ?, `Status` = ?, `Semester` = ?, `Year` = ?
+    WHERE `CE_NUM` = ?;";
+  $fields = array('uin','class_id','status','semester','year','CE_NUM');
   if (emptyInput($fields) !== false) {
     header("location: ../admin_programprogress.php?error=emptyinput");
     exit();
   }
-  $bindtypes = "isssi";
+  $bindtypes = "iisssi";
   executeSQL($conn, $fields, $sql, $bindtypes);
 } else if(isset($_POST['delete_class'])) {
-  $sql = "DELETE FROM `class_enrollment` WHERE `Class_ID` = ?;";
-  $fields = array('Class_ID');
+  $sql = "DELETE FROM `class_enrollment` WHERE `CE_NUM` = ?;";
+  $fields = array('CE_NUM');
   if (emptyInput($fields) !== false) {
     header("location: ../admin_programprogress.php?error=emptyinput");
     exit();
@@ -42,18 +42,18 @@ if(isset($_POST['insert_class'])){
   $bindtypes = "iiss";
   executeSQL($conn, $fields, $sql, $bindtypes);
 } else if(isset($_POST['update_intern'])) {
-  $sql = "UPDATE `intern_app` SET `UIN` = ?, `Status` = ?, `Year` = ?
-    WHERE `Intern_ID` = ?";
-  $fields = array('uin','status','year','Intern_ID');
+  $sql = "UPDATE `intern_app` SET `UIN` = ?, `Intern_ID` = ?, `Status` = ?, `Year` = ?
+    WHERE `IA_Num` = ?";
+  $fields = array('uin','Intern_ID','status','year','IA_Num');
   if (emptyInput($fields) !== false) {
     header("location: ../admin_programprogress.php?error=emptyinput");
     exit();
   }
-  $bindtypes = "issi";
+  $bindtypes = "iissi";
   executeSQL($conn, $fields, $sql, $bindtypes);
 } else if(isset($_POST['delete_intern'])) {
-  $sql = "DELETE FROM `intern_app` WHERE `Intern_ID` = ?;";
-  $fields = array('Intern_ID');
+  $sql = "DELETE FROM `intern_app` WHERE `IA_Num` = ?;";
+  $fields = array('IA_Num');
   if (emptyInput($fields) !== false) {
     header("location: ../admin_programprogress.php?error=emptyinput");
     exit();
@@ -71,18 +71,18 @@ if(isset($_POST['insert_class'])){
   $bindtypes = "iississ";
   executeSQL($conn, $fields, $sql, $bindtypes);
 } else if(isset($_POST['update_cert'])) {
-  $sql = "UPDATE `cert_enrollment` SET `UIN` = ?, `Status` = ?, `Training_Status` = ?,  `Program_Num` = ?, `Semester` = ?, `Year` = ?
-    WHERE `Cert_ID` = ?;";
-  $fields = array('UIN','Status','Training_Status','Program_Num','Semester','Year','Cert_ID');
+  $sql = "UPDATE `cert_enrollment` SET `UIN` = ?, `Cert_ID` = ?, `Status` = ?, `Training_Status` = ?,  `Program_Num` = ?, `Semester` = ?, `Year` = ?
+    WHERE `CertE_Num` = ?;";
+  $fields = array('UIN','Cert_ID','Status','Training_Status','Program_Num','Semester','Year','CertE_Num');
   if (emptyInput($fields) !== false) {
     header("location: ../admin_programprogress.php?error=emptyinput");
     exit();
   }
-  $bindtypes = "ississi";
+  $bindtypes = "iississi";
   executeSQL($conn, $fields, $sql, $bindtypes);
 } else if(isset($_POST['delete_cert'])) {
-  $sql = "DELETE FROM `cert_enrollment` WHERE `Cert_ID` = ?;";
-  $fields = array('Cert_ID');
+  $sql = "DELETE FROM `cert_enrollment` WHERE `CertE_Num` = ?;";
+  $fields = array('CertE_Num');
   if (emptyInput($fields) !== false) {
     header("location: ../admin_programprogress.php?error=emptyinput");
     exit();

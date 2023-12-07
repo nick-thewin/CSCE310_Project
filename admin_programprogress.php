@@ -37,6 +37,8 @@
       </form>
       <h3>Update Class Progress Record</h3>
       <form action="includes/programprogress_admin.inc.php" method="post">
+        <label for="CE_NUM">CE NUM: </label><br>
+        <input type="text" id="CE_NUM" name="CE_NUM"><br>
         <label for="uin">UIN: </label><br>
         <input type="text" id="uin" name="uin"><br>
         <label for="class_id">Class ID: </label><br>
@@ -51,8 +53,8 @@
       </form>
       <h3>Delete Class Progress Record</h3>
       <form action="includes/programprogress_admin.inc.php" method="post">
-        <label for="Class_ID">Class ID: </label><br>
-        <input type="text" id="Class_ID" name="Class_ID"><br>
+        <label for="CE_NUM">CE NUM: </label><br>
+        <input type="text" id="CE_NUM" name="CE_NUM"><br>
         <button type="delete_class" name="delete_class">Submit</button>
       </form>
       <br>
@@ -72,6 +74,8 @@
       </form>  
       <h3>Update Internship Progress Record</h3>
       <form action="includes/programprogress_admin.inc.php" method="post">
+        <label for="IA_Num">IA Num: </label><br>
+        <input type="text" id="IA_Num" name="IA_Num"><br>
         <label for="uin">UIN: </label><br>
         <input type="text" id="uin" name="uin"><br>
         <label for="Intern_ID">Intern ID: </label><br>
@@ -84,8 +88,8 @@
       </form>
       <h3>Delete Internship Progress Record</h3>
       <form action="includes/programprogress_admin.inc.php" method="post">
-        <label for="Intern_ID">Intern ID: </label><br>
-        <input type="text" id="Intern_ID" name="Intern_ID"><br>
+        <label for="IA_Num">IA Num: </label><br>
+        <input type="text" id="IA_Num" name="IA_Num"><br>
         <button type="delete_intern" name="delete_intern">Submit</button>
       </form>
       <br>
@@ -111,6 +115,8 @@
       </form>
       <h3>Update Certification Progress Record</h3>
       <form action="includes/programprogress_admin.inc.php" method="post">
+        <label for="CertE_Num">CertE Num: </label><br>
+        <input type="text" id="CertE_Num" name="CertE_Num"><br>
         <label for="UIN">UIN: </label><br>
         <input type="text" id="UIN" name="UIN"><br>
         <label for="Cert_ID">Cert ID: </label><br>
@@ -129,8 +135,8 @@
       </form>
       <h3>Delete Certification Progress Record</h3>
       <form action="includes/programprogress_admin.inc.php" method="post">
-        <label for="Cert_ID">Cert ID: </label><br>
-        <input type="text" id="Cert_ID" name="Cert_ID"><br>
+        <label for="CertE_Num">CertE Num: </label><br>
+        <input type="text" id="CertE_Num" name="CertE_Num"><br>
         <button type="delete_cert" name="delete_cert">Submit</button>
       </form>
       <br>
