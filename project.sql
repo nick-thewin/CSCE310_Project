@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 01, 2023 at 03:39 PM
+-- Generation Time: Dec 08, 2023 at 12:38 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -74,6 +74,14 @@ CREATE TABLE `cert_enrollment` (
   `Year` year(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `cert_enrollment`
+--
+
+INSERT INTO `cert_enrollment` (`CertE_Num`, `UIN`, `Cert_ID`, `Status`, `Training_Status`, `Program_Num`, `Semester`, `Year`) VALUES
+(3, 12341234, 1, 'pass', 'pass', 123, 'spring', '2001'),
+(5, 1, 2, '2', '2', 2, '2', '2002');
+
 -- --------------------------------------------------------
 
 --
@@ -101,6 +109,16 @@ CREATE TABLE `class_enrollment` (
   `Semester` varchar(128) NOT NULL,
   `Year` year(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `class_enrollment`
+--
+
+INSERT INTO `class_enrollment` (`CE_NUM`, `UIN`, `Class_ID`, `Status`, `Semester`, `Year`) VALUES
+(10, 11111111, 133, 'd', 'e', '2000'),
+(11, 12341234, 123, 'pass', 'spring', '2024'),
+(12, 1, 1, '1', '1', '2001'),
+(13, 1, 4, '4', '4', '2004');
 
 -- --------------------------------------------------------
 
@@ -206,6 +224,14 @@ CREATE TABLE `intern_app` (
   `Year` year(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `intern_app`
+--
+
+INSERT INTO `intern_app` (`IA_Num`, `UIN`, `Intern_ID`, `Status`, `Year`) VALUES
+(2, 12341234, 1, 'pass', '2024'),
+(4, 1, 2, '2', '2002');
+
 -- --------------------------------------------------------
 
 --
@@ -240,6 +266,14 @@ CREATE TABLE `track` (
   `Tracking_Num` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `track`
+--
+
+INSERT INTO `track` (`Program_Num`, `Student_Num`, `Tracking_Num`) VALUES
+(4, 4, 2),
+(2, 1, 4);
+
 -- --------------------------------------------------------
 
 --
@@ -263,8 +297,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`UIN`, `First_Name`, `M_Initial`, `Last_Name`, `Username`, `Passwords`, `User_Type`, `Email`, `Discord_Name`) VALUES
-(123456789, 'TES', 'T', 'ING', 'testing123', 'password', 'Admin', 'testing1234@hotmail.com', 'websitetester#1234'),
-(123456790, 'Test', 'I', 'Ng', 'anothertester', 'password', 'Student', 'anothertester@outlook.com', 'copytester#1111'),
+(1, 'Test', 'I', 'Ng', 'student', '1', 'Student', 'anothertester@outlook.com', 'copytester#1111'),
+(2, 'TES', 'T', 'ING', 'admin', '1', 'Admin', 'testing1234@hotmail.com', 'websitetester#1234'),
 (987654322, 'Hunter', 'M', 'Pearson', 'hunterpearson36', 'secretpassworddontsteal', 'Student', 'hunterpearson36@gmail.com', 'LeahciMx'),
 (987654323, 'Dave', 'L', 'Scy', 'davidlcs', 'p', 'Student', 'davidscy@hotmail.com', 'daveyboi'),
 (987654325, 'Joseph', 'F', 'May', 'joef', 'JOEY', 'Student', 'joeyfm@gmail.com', 'joebrr'),
@@ -430,34 +464,58 @@ ALTER TABLE `applications`
   MODIFY `App_Num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `cert_enrollment`
+--
+ALTER TABLE `cert_enrollment`
+  MODIFY `CertE_Num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `class_enrollment`
+--
+ALTER TABLE `class_enrollment`
+  MODIFY `CE_NUM` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `document`
+--
+ALTER TABLE `document`
+  MODIFY `Doc_Num` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `event`
+--
+ALTER TABLE `event`
+  MODIFY `Event_ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `event_tracking`
+--
+ALTER TABLE `event_tracking`
+  MODIFY `ET_Num` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `intern_app`
+--
+ALTER TABLE `intern_app`
+  MODIFY `IA_Num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `programs`
 --
 ALTER TABLE `programs`
   MODIFY `Program_Num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
+-- AUTO_INCREMENT for table `track`
+--
+ALTER TABLE `track`
+  MODIFY `Tracking_Num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
   MODIFY `UIN` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=987654335;
-
---
--- AUTO_INCREMENT for table `event`
---
-ALTER TABLE `event`
-  MODIFY `Event_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
-
---
--- AUTO_INCREMENT for table `event_tracking`
---
-ALTER TABLE `event_tracking`
-  MODIFY `ET_Num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
-
---
--- AUTO_INCREMENT for table `document`
---
-ALTER TABLE `document`
-  MODIFY `Doc_Num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
