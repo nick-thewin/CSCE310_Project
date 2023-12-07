@@ -1,3 +1,8 @@
+<!-- 
+    Author: Nicholas Nguyen
+    UIN: 630003713
+    Description: This code is for the Application Info Manager Section of the Student Page
+ -->
 <?php
   include_once('header.php');
   include_once 'includes/dbh.inc.php';
