@@ -87,7 +87,7 @@ body {
 }
 
 .column1 {
-    max-height: 600px;
+    max-height: 1000px;
     overflow: auto;
     width: 25%;
     padding: 20px;
@@ -95,7 +95,7 @@ body {
 }
 
 .column2 {
-    max-height: 600px;
+    max-height: 1000px;
     overflow: auto;
     width: 70%;
     padding: 20px;
