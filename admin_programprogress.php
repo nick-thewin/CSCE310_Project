@@ -15,7 +15,7 @@
 <div class="container">
   <div class="column1">
     <div class="tab">
-      <button class="tablinks" onclick="openProgress(event, 'class')">Class</button>
+      <button class="tablinks" onclick="openProgress(event, 'class')" id="defaultOpen">Class</button>
       <button class="tablinks" onclick="openProgress(event, 'internship')">Internship</button>
       <button class="tablinks" onclick="openProgress(event, 'certification')">Certification</button>
       <button class="tablinks" onclick="openProgress(event, 'program')">Program</button>
@@ -117,6 +117,7 @@ function openProgress(evt, progress) {
   document.getElementById(progress).style.display = "block";
   evt.currentTarget.className += " active";
 }
+document.getElementById("defaultOpen").click();
 </script>
 
 </body>
