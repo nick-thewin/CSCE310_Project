@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 08, 2023 at 04:34 PM
+-- Generation Time: Dec 08, 2023 at 07:38 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -79,7 +79,8 @@ CREATE TABLE `cert_enrollment` (
 
 INSERT INTO `cert_enrollment` (`CertE_Num`, `UIN`, `Cert_ID`, `Status`, `Training_Status`, `Program_Num`, `Semester`, `Year`) VALUES
 (3, 12341234, 1, 'pass', 'pass', 123, 'spring', '2001'),
-(5, 1, 2, '2', '2', 2, '2', '2002');
+(5, 1, 2, '2', '2', 2, '2', '2002'),
+(6, 123456790, 1, '1', '1', 1, '1', '2001');
 
 -- --------------------------------------------------------
 
@@ -117,7 +118,8 @@ INSERT INTO `class_enrollment` (`CE_NUM`, `UIN`, `Class_ID`, `Status`, `Semester
 (10, 11111111, 133, 'd', 'e', '2000'),
 (11, 12341234, 123, 'pass', 'spring', '2024'),
 (12, 1, 1, '1', '1', '2001'),
-(13, 1, 4, '4', '4', '2004');
+(13, 1, 4, '4', '4', '2004'),
+(14, 123456790, 1, '1', '1', '2001');
 
 -- --------------------------------------------------------
 
@@ -229,7 +231,8 @@ CREATE TABLE `intern_app` (
 
 INSERT INTO `intern_app` (`IA_Num`, `UIN`, `Intern_ID`, `Status`, `Year`) VALUES
 (2, 12341234, 1, 'pass', '2024'),
-(4, 1, 2, '2', '2002');
+(4, 1, 2, '2', '2002'),
+(5, 123456790, 1, '1', '2001');
 
 -- --------------------------------------------------------
 
@@ -292,7 +295,8 @@ CREATE TABLE `track` (
 
 INSERT INTO `track` (`Program_Num`, `Student_Num`, `Tracking_Num`) VALUES
 (4, 4, 2),
-(2, 1, 4);
+(2, 1, 4),
+(1, 123456790, 5);
 
 -- --------------------------------------------------------
 
@@ -415,7 +419,8 @@ ALTER TABLE `certification`
 -- Indexes for table `cert_enrollment`
 --
 ALTER TABLE `cert_enrollment`
-  ADD PRIMARY KEY (`CertE_Num`);
+  ADD PRIMARY KEY (`CertE_Num`),
+  ADD KEY `idx_uin` (`UIN`);
 
 --
 -- Indexes for table `classes`
@@ -427,7 +432,8 @@ ALTER TABLE `classes`
 -- Indexes for table `class_enrollment`
 --
 ALTER TABLE `class_enrollment`
-  ADD PRIMARY KEY (`CE_NUM`);
+  ADD PRIMARY KEY (`CE_NUM`),
+  ADD KEY `idx_uin` (`UIN`);
 
 --
 -- Indexes for table `collegestudent`
@@ -463,7 +469,8 @@ ALTER TABLE `internship`
 -- Indexes for table `intern_app`
 --
 ALTER TABLE `intern_app`
-  ADD PRIMARY KEY (`IA_Num`);
+  ADD PRIMARY KEY (`IA_Num`),
+  ADD KEY `idx_uin` (`UIN`);
 
 --
 -- Indexes for table `programs`
@@ -476,7 +483,8 @@ ALTER TABLE `programs`
 -- Indexes for table `track`
 --
 ALTER TABLE `track`
-  ADD PRIMARY KEY (`Tracking_Num`);
+  ADD PRIMARY KEY (`Tracking_Num`),
+  ADD KEY `idx_uin` (`Student_Num`);
 
 --
 -- Indexes for table `user`
@@ -499,19 +507,31 @@ ALTER TABLE `applications`
 -- AUTO_INCREMENT for table `cert_enrollment`
 --
 ALTER TABLE `cert_enrollment`
-  MODIFY `CertE_Num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `CertE_Num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `class_enrollment`
 --
 ALTER TABLE `class_enrollment`
-  MODIFY `CE_NUM` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `CE_NUM` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `intern_app`
+--
+ALTER TABLE `intern_app`
+  MODIFY `IA_Num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `programs`
 --
 ALTER TABLE `programs`
   MODIFY `Program_Num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `track`
+--
+ALTER TABLE `track`
+  MODIFY `Tracking_Num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `user`
