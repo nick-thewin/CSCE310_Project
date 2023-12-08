@@ -9,9 +9,9 @@
   include_once 'includes/dbh.inc.php';
 ?>
 
-<!-- This portion will demonstrate my table "Insert" Query -->
+<!-- This portion will demonstrate my table "Insert" Query, by inserting a progam in the "programs" table -->
 <h3>Insert Program</h3>
-  <!--  The form will keep track adn store the inputs in a variable-->
+  <!--  The form will keep track and store the inputs in variables to be queried-->
   <form action="includes/program_info_manager.inc.php" method="post">
     <label for="Program_Name">Program Name: </label><br>
     <input type="text" id="Program_Name" name="Program_Name"><br>
@@ -22,14 +22,15 @@
         <option value="1">Yes</option>
         <option value="0">No</option>
     </select><br>
-    <!-- When this button is clicked it activated a function in the include file, which performs the query -->
+    <!-- Clicking this button calls a function in the include, and performs the query with the set variables -->
     <button type="insert_program" name="insert_program">Submit</button>
   </form>
   <br>
 
-    <!-- This portion will demonstrate my table "Update" Query -->
+
+    <!-- This portion will demonstrate my table "Update" Query, by updating an application in the "programs" table  -->
     <h3>Edit Program Information</h3>
-    <!--  The form will keep track adn store the inputs in a variable-->
+    <!--  The form will keep track and store the inputs in a variable-->
     <form action="includes/program_info_manager.inc.php" method="post">
       <!-- Select dropdown for choosing application -->
       <label for="Program_Num">Choose a program by program number to edit: </label><br>
@@ -88,12 +89,25 @@
     </form>
     <br>
 
-    <!-- This portion will demonstrate my table "Select" Query -->
+    <!-- This portion will demonstrate my table "Select" Query, by selecting specific program data  -->
     <h3>Generate Program Report</h3>
     <!--  The form will keep track and store the inputs in a variable-->
     <form action="includes/program_info_manager.inc.php" method="post">
-        <label for="Program_Num">Program Number: </label><br>
-        <input type="text" id="Program_Num" name="Program_Num"><br>
+        <label for="Program_Num">Choose a program by program number to generate a report: </label><br>
+        <select id="Program_Num" name="Program_Num">
+          <?php
+          $sql = "SELECT * FROM programs";
+          $result = $conn->query($sql);
+          // Generate options for the dropdown based on database data
+          if ($result->num_rows > 0) {
+              while ($row = $result->fetch_assoc()) {
+                  echo '<option value="' . $row['Program_Num'] . '">' . $row['Program_Num'] . '</option>';
+              }
+          } else {
+              echo '<option value="">No programs available</option>';
+          }
+          ?>
+        </select><br>
         <!-- When this button is clicked it calls a function in the include which performs the query and generate the report -->
         <button type="generate_program_report" name="generate_program_report">Submit</button>
     </form>
@@ -104,8 +118,21 @@
     <h3>Delete Program Data</h3>
     <!--  The form will keep track and store the inputs in a variable-->
     <form action="includes/program_info_manager.inc.php" method="post">
-        <label for="Program_Num">Program Number: </label><br>
-        <input type="text" id="Program_Num" name="Program_Num"><br>
+        <label for="Program_Num">Choose a program by program number to delete: </label><br>
+        <select id="Program_Num" name="Program_Num">
+          <?php
+          $sql = "SELECT * FROM programs";
+          $result = $conn->query($sql);
+          // Generate options for the dropdown based on database data
+          if ($result->num_rows > 0) {
+              while ($row = $result->fetch_assoc()) {
+                  echo '<option value="' . $row['Program_Num'] . '">' . $row['Program_Num'] . '</option>';
+              }
+          } else {
+              echo '<option value="">No programs available</option>';
+          }
+          ?>
+        </select><br>
         <!-- When this button is clicked it calls a function in the include which performs the query and deletes the desired entity -->
         <button type="delete_program_data" name="delete_program_data">Submit</button>
     </form>
@@ -115,8 +142,21 @@
     <h3>Delete/Change Program Access</h3>
     <!--  The form will keep track and store the inputs in a variable-->
     <form action="includes/program_info_manager.inc.php" method="post">
-        <label for="Program_Num">Program Number: </label><br>
-        <input type="text" id="Program_Num" name="Program_Num"><br>
+        <label for="Program_Num">Choose a program by program number to delete/change access: </label><br>
+        <select id="Program_Num" name="Program_Num">
+          <?php
+          $sql = "SELECT * FROM programs";
+          $result = $conn->query($sql);
+          // Generate options for the dropdown based on database data
+          if ($result->num_rows > 0) {
+              while ($row = $result->fetch_assoc()) {
+                  echo '<option value="' . $row['Program_Num'] . '">' . $row['Program_Num'] . '</option>';
+              }
+          } else {
+              echo '<option value="">No programs available</option>';
+          }
+          ?>
+        </select><br>
         <label for="User_Access">User Access: </label><br>
         <select id="User_Access" name="User_Access">
           <option value="1">Yes</option>
@@ -128,9 +168,9 @@
 
 
 <?php
-
+// This displays the table for the programs table
 $query = "SELECT * FROM programs";
-echo "<br><b>Database Output</b>";
+echo "<br><b>Database Output for Programs</b>";
 echo '<table> 
       <tr> 
           <th>Program_Num</th> 

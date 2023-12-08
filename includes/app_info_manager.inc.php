@@ -1,42 +1,33 @@
-<!-- 
-    Author: Nicholas Nguyen
-    UIN: 630003713
-    Description: This code is for the functionality of the Application Info Manager Section of the Student Page
- -->
- 
 <?php 
+// Author: Nicholas Nguyen
+// UIN: 630003713
+// Description: This code is for the functionality of the Application Information Manager Section of the Student Page
+
+
 require_once 'dbh.inc.php';
 require_once 'functions.inc.php';
 
-
+// This function will occur when the button for inserting an application is clicked
 if(isset($_POST['Apply'])){
+    // Extract POST data
     $programNum = $_POST['Program_Num'];
     $uncomCert = $_POST['Uncom_Cert'];
     $comCert = $_POST['Com_Cert'];
     $purposeStatement = $_POST['Purpose_Statement'];
-    // Check if 'userid' is set in the session
-    if (isset($_SESSION['userid'])) {
-        $UIN = $_SESSION['userid'];
-    } else {
-        // Handle the case where 'userid' is not set in the session
-        // You can set a default value or redirect the user to a login page
-        // depending on your application logic.
-        $UIN = '11111'; // Change this to your desired default value
-    }
-
-    // Sanitize and validate inputs if needed
+    $UIN = $_SESSION['userid'];
 
     // Insert into database
     $sql = "INSERT INTO `applications`(`Program_Num`, `UIN` ,`Uncom_Cert`, `Com_Cert`, `Purpose_Statement`) VALUES (?, ?, ?, ?, ?)";
     $stmt = mysqli_stmt_init($conn);
 
+    // Prepare statement
     if (mysqli_stmt_prepare($stmt, $sql)) {
+        // Bind parameters
         mysqli_stmt_bind_param($stmt, "iisss", $programNum, $UIN, $uncomCert, $comCert, $purposeStatement);
-
+        // Execute statement
         if (mysqli_stmt_execute($stmt)) {
             // Success
             mysqli_stmt_close($stmt);
-            echo "Application inserted successfully";
             header("Location: ../app_info_manager.php");
             exit();
         } else {
@@ -50,7 +41,7 @@ if(isset($_POST['Apply'])){
 
 }
 
-
+// This function will occur when the button to edit an application is clicked
 if (isset($_POST['edit_app'])) {
     $appNum = $_POST['App_Num'];
     $programNum = $_POST['Program_Num_Edit'];
@@ -58,15 +49,15 @@ if (isset($_POST['edit_app'])) {
     $comCert = $_POST['Com_Cert_Edit'];
     $purposeStatement = $_POST['Purpose_Statement_Edit'];
 
-    // Sanitize and validate inputs if needed
-
     // Insert into database
     $sql = "UPDATE `applications` SET `Program_Num`=?,`Uncom_Cert`=?,`Com_Cert`=?,`Purpose_Statement`=? WHERE `App_Num`=?";
     $stmt = mysqli_stmt_init($conn);
 
+    // Prepare statement
     if (mysqli_stmt_prepare($stmt, $sql)) {
+        // Bind parameters
         mysqli_stmt_bind_param($stmt, "isssi", $programNum, $uncomCert, $comCert, $purposeStatement, $appNum);
-
+        // Execute statement
         if (mysqli_stmt_execute($stmt)) {
             // Success
             mysqli_stmt_close($stmt);
@@ -75,31 +66,18 @@ if (isset($_POST['edit_app'])) {
             exit();
         } else {
             // Error
-            echo "An error occurred while updating the application.";
-            // Log the error for debugging (do not expose raw error messages to the user)
-            error_log("Error updating application: " . mysqli_stmt_error($stmt));
+            echo "Error: " . mysqli_stmt_error($stmt);
         }
     } else {
         // Error preparing statement
-        echo "An error occurred while preparing the update statement.";
-        // Log the error for debugging (do not expose raw error messages to the user)
-        error_log("Error preparing update statement: " . mysqli_error($conn));
+        echo "Error: " . mysqli_error($conn);
     }
 }
 
+// This function will occur when the button to generate a report is clicked
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["generate_app_report"])) {
   // Process form data
     $appNum = isset($_POST["App_Num"]) ? $_POST["App_Num"] : '';
-
-    // Validate or sanitize input if needed
-    $appNum = filter_var($appNum, FILTER_SANITIZE_NUMBER_INT);
-
-    // Check if $appNum is a valid integer
-    if (!filter_var($appNum, FILTER_VALIDATE_INT)) {
-        // Handle the error here
-        echo "Invalid application number.";
-        exit;
-    }
 
     // Retrieve data from the database
     $sql = "SELECT Program_Num, UIN, Uncom_Cert, Com_Cert, Purpose_Statement FROM applications WHERE App_Num = ?";
@@ -131,23 +109,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["generate_app_report"])
     echo '<button style="margin-top: 10px;" onclick="history.go(-1);">Back</button>';
 }
 
-
+// This function will occur when the button to delete an application is clicked
 if (isset($_POST['delete_app_data'])) {
     $appNum = $_POST['App_Num'];
-
-    // Sanitize and validate inputs if needed
-
-    // Insert into database
+    // Stores query to delete application
     $sql = "DELETE FROM `applications` WHERE `App_Num`=?";
+    // Prepare statement
     $stmt = mysqli_stmt_init($conn);
-
     if (mysqli_stmt_prepare($stmt, $sql)) {
+        // Bind parameters
         mysqli_stmt_bind_param($stmt, "i", $appNum);
-
+        // Execute statement
         if (mysqli_stmt_execute($stmt)) {
             // Success
             mysqli_stmt_close($stmt);
-            echo "Application deleted successfully";
             header("Location: ../app_info_manager.php");
             exit();
         } else {
@@ -158,10 +133,9 @@ if (isset($_POST['delete_app_data'])) {
         // Error preparing statement
         echo "Error: " . mysqli_error($conn);
     }
-
-    
 }
 
+// This function will occur when the button to display application information to edit is clicked
 if (isset($_GET['App_Num'])) {
     $appNum = $_GET['App_Num'];
 
@@ -172,7 +146,9 @@ if (isset($_GET['App_Num'])) {
     $stmt->execute();
     $result = $stmt->get_result();
 
+    // Check if data was found
     if ($result->num_rows > 0) {
+        // Fetch data as associative array
         $row = $result->fetch_assoc();
 
         // Return relevant data as JSON with "_Edit" names
@@ -182,16 +158,10 @@ if (isset($_GET['App_Num'])) {
             'Com_Cert' => $row['Com_Cert'],
             'Purpose_Statement' => $row['Purpose_Statement']
         );
-
+        
         echo json_encode($response);
-    } else {
-        // Handle case when no data is found
-        echo json_encode(array('error' => 'No data found for the given App_Num'));
-    }
-} else {
-    // Handle case when App_Num is not provided
-    echo json_encode(array('error' => 'App_Num parameter is missing'));
-}
+    } 
+} 
 
 
 ?>
