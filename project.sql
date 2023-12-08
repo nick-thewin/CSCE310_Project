@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 08, 2023 at 09:26 AM
+-- Generation Time: Dec 08, 2023 at 04:34 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -41,10 +41,7 @@ CREATE TABLE `applications` (
 --
 
 INSERT INTO `applications` (`App_Num`, `Program_Num`, `UIN`, `Uncom_Cert`, `Com_Cert`, `Purpose_Statement`) VALUES
-(1, 8, 123456790, '1', '1', '1'),
-(4, 6, 123456790, '2', '2', '2'),
-(6, 5, 123456790, 'no', 'no', 'yes'),
-(8, 8, 123456790, 'uin', 'uin', 'uin');
+(11, 13, 123456790, 'trigger', 'trigger', 'trigger');
 
 -- --------------------------------------------------------
 
@@ -252,11 +249,18 @@ CREATE TABLE `programs` (
 --
 
 INSERT INTO `programs` (`Program_Num`, `Name`, `Description`, `User_Access`) VALUES
-(5, '1', '1', 1),
 (6, 'Program2', 'This is another test program', 0),
-(11, 'view test 1', 'view test 1', 1),
 (12, 'view test 2', 'view test 2', 0),
 (13, 'view test 3', 'view test 3', 1);
+
+--
+-- Triggers `programs`
+--
+DELIMITER $$
+CREATE TRIGGER `delete_application` BEFORE DELETE ON `programs` FOR EACH ROW DELETE FROM applications
+    WHERE Program_Num = OLD.Program_Num
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -465,7 +469,8 @@ ALTER TABLE `intern_app`
 -- Indexes for table `programs`
 --
 ALTER TABLE `programs`
-  ADD PRIMARY KEY (`Program_Num`);
+  ADD PRIMARY KEY (`Program_Num`),
+  ADD KEY `idx_user_access` (`User_Access`);
 
 --
 -- Indexes for table `track`
@@ -488,7 +493,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `applications`
 --
 ALTER TABLE `applications`
-  MODIFY `App_Num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `App_Num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `cert_enrollment`
@@ -506,7 +511,7 @@ ALTER TABLE `class_enrollment`
 -- AUTO_INCREMENT for table `programs`
 --
 ALTER TABLE `programs`
-  MODIFY `Program_Num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `Program_Num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `user`
