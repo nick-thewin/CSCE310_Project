@@ -1,5 +1,9 @@
 <?php 
+// Author: Hunter Pearson
+// UIN: 23005050
+// Description: File that has login functionality.
 
+// signs in the user
 if(isset($_POST["signin"])){
 
     $username = $_POST["username"];
@@ -17,6 +21,7 @@ if(isset($_POST["signin"])){
     loginUser($conn, $username, $password);
 }
 
+// sends back to login page
 else {
     header("location: ../login.php");
     exit();

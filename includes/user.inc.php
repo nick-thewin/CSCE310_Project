@@ -204,6 +204,7 @@ function updateRole($role, $msg){
 
 // Function to handle deleting the user account.
 function deleteAccount() {
+    global $conn;
     // Start output buffering
     ob_start();
 
@@ -223,7 +224,7 @@ function deleteAccount() {
     mysqli_stmt_close($stmtUser);
 
     // Redirect to index with deletion message
-    redirectToIndex("error=accountdeleted");
+    redirectToAdminUser("error=accountdeleted");
 
     // End output buffering
     ob_end_flush();
@@ -293,6 +294,10 @@ function updateCollegeStudentData($field, $value){
 
     // Use appropriate data type for binding
     $dataType = is_numeric($value) ? "i" : "s";
+
+    if($field == "GPA"){
+        $dataType = "s";
+    }
 
     mysqli_stmt_bind_param($stmt, $dataType, $value);
     mysqli_stmt_execute($stmt);

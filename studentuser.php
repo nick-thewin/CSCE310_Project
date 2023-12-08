@@ -101,7 +101,7 @@ if ($stmt = $conn->prepare($query)) {
                     <input type="text" id="gender" name="gender"><br>
 
                     <label for="gpa">GPA:</label><br>
-                    <input type="number" id="gpa" name="gpa" step="any"><br>
+                    <input type="float" id="gpa" name="gpa" step="any"><br>
 
                     <label for="major">Major:</label><br>
                     <input type="text" id="major" name="major"><br>
@@ -166,7 +166,9 @@ if ($stmt = $conn->prepare($query)) {
                           <th>Discord Name</th>';
 
                 if ($_SESSION["userPerm"] === "Student") {
-                    echo '<th>Gender</th>';
+                    echo '<th>Gender</th>
+                          <th>Hispanic / Latino</th> 
+                          <th>U.S. Citizen</th>';
                 }
 
                 echo '</tr>';
@@ -182,13 +184,17 @@ if ($stmt = $conn->prepare($query)) {
                       <td>' . $accountInfo["Discord_Name"] . '</td>';
 
                 if ($_SESSION["userPerm"] === "Student") {
-                    echo '<td>' . $accountInfo["Gender"] . '</td>';
+                    echo '<td>' . $accountInfo["Gender"] . '</td>
+                          <td>' . $accountInfo["Hispanic_Latino"] . '</td>
+                          <td>' . $accountInfo["Race"] . '</td>';
                 }
 
                 echo '</tr>';
 
                 if ($_SESSION["userPerm"] === "Student") {
                     echo '<tr>
+                            <th>U.S. Citizen</th> 
+                            <th>First Generation</th>
                             <th>GPA</th>
                             <th>Major</th>
                             <th>Minor 1</th>
@@ -201,6 +207,8 @@ if ($stmt = $conn->prepare($query)) {
                         </tr>';
 
                     echo '<tr>
+                            <td>' . $accountInfo["U_S_Citizen"] . '</td>
+                            <td>' . $accountInfo["First_Generation"] . '</td>
                             <td>' . $accountInfo["GPA"] . '</td>
                             <td>' . $accountInfo["Major"] . '</td>
                             <td>' . $accountInfo["Minor1"] . '</td>

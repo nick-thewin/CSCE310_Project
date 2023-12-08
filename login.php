@@ -1,4 +1,7 @@
 <?php
+// Author: Hunter Pearson
+// UIN: 23005050
+// Description: Login page to get into the system.
 	include_once 'includes/dbh.inc.php';
 ?>
 

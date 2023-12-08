@@ -1,4 +1,7 @@
 <?php
+// Author: Hunter Pearson
+// UIN: 23005050
+// Description: File that includes the connection to the database.
 
 $dbServername = "localhost";
 $dbUsername = "root";

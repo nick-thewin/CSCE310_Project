@@ -1,5 +1,9 @@
 <?php 
+// Author: Hunter Pearson
+// UIN: 23005050
+// Description: File that has signup functionality.
 
+// creates the new account from the signup page
 if(isset($_POST["createAccount"])){
 
     $FName = $_POST["FName"];
@@ -28,6 +32,7 @@ if(isset($_POST["createAccount"])){
 
 }
 
+// function that will prevent an empty signup from being updated 
 function handleEmptyValue($value, $conn) {
     if ($value === "") {
         return NULL;
@@ -36,6 +41,7 @@ function handleEmptyValue($value, $conn) {
     }
 }
 
+// adds the info to the collegestudent table during student signup
 if (isset($_POST["addInfo"])) {
     require_once 'dbh.inc.php';
     require_once 'functions.inc.php';
@@ -125,6 +131,7 @@ if (isset($_POST["addInfo"])) {
     }
 }
 
+// creates the new admin from the admin page
 if(isset($_POST["createAdmin"])){
 
     $FName = $_POST["FName"];
@@ -144,7 +151,7 @@ if(isset($_POST["createAdmin"])){
         exit();
     }
     
-    if(usernameExists2($conn,$Username) !== false){
+    if(usernameExists($conn,$Username) !== false){
         header("location: ../createadmin.php?error=usernametaken");
         exit();
     }
