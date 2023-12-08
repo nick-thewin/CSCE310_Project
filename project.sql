@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 08, 2023 at 12:38 AM
+-- Generation Time: Dec 08, 2023 at 09:26 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -41,8 +41,10 @@ CREATE TABLE `applications` (
 --
 
 INSERT INTO `applications` (`App_Num`, `Program_Num`, `UIN`, `Uncom_Cert`, `Com_Cert`, `Purpose_Statement`) VALUES
-(1, 5, 123456790, 'no', 'no', 'test'),
-(3, 6, 123456790, 'no', '1', '1');
+(1, 8, 123456790, '1', '1', '1'),
+(4, 6, 123456790, '2', '2', '2'),
+(6, 5, 123456790, 'no', 'no', 'yes'),
+(8, 8, 123456790, 'uin', 'uin', 'uin');
 
 -- --------------------------------------------------------
 
@@ -250,9 +252,23 @@ CREATE TABLE `programs` (
 --
 
 INSERT INTO `programs` (`Program_Num`, `Name`, `Description`, `User_Access`) VALUES
-(5, 'Program', 'This is a test program', 1),
+(5, '1', '1', 1),
 (6, 'Program2', 'This is another test program', 0),
-(8, 'testing1', 'testing', 1);
+(11, 'view test 1', 'view test 1', 1),
+(12, 'view test 2', 'view test 2', 0),
+(13, 'view test 3', 'view test 3', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `programview`
+-- (See below for the actual view)
+--
+CREATE TABLE `programview` (
+`Program_Num` int(11)
+,`Name` varchar(128)
+,`Description` varchar(128)
+);
 
 -- --------------------------------------------------------
 
@@ -297,8 +313,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`UIN`, `First_Name`, `M_Initial`, `Last_Name`, `Username`, `Passwords`, `User_Type`, `Email`, `Discord_Name`) VALUES
-(1, 'Test', 'I', 'Ng', 'student', '1', 'Student', 'anothertester@outlook.com', 'copytester#1111'),
-(2, 'TES', 'T', 'ING', 'admin', '1', 'Admin', 'testing1234@hotmail.com', 'websitetester#1234'),
+(123456789, 'TES', 'T', 'ING', 'testing123', 'password', 'Admin', 'testing1234@hotmail.com', 'websitetester#1234'),
+(123456790, 'Test', 'I', 'Ng', 'anothertester', 'password', 'Student', 'anothertester@outlook.com', 'copytester#1111'),
 (987654322, 'Hunter', 'M', 'Pearson', 'hunterpearson36', 'secretpassworddontsteal', 'Student', 'hunterpearson36@gmail.com', 'LeahciMx'),
 (987654323, 'Dave', 'L', 'Scy', 'davidlcs', 'p', 'Student', 'davidscy@hotmail.com', 'daveyboi'),
 (987654325, 'Joseph', 'F', 'May', 'joef', 'JOEY', 'Student', 'joeyfm@gmail.com', 'joebrr'),
@@ -358,6 +374,15 @@ CREATE TABLE `user_college_info` (
 -- --------------------------------------------------------
 
 --
+-- Structure for view `programview`
+--
+DROP TABLE IF EXISTS `programview`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `programview`  AS SELECT `programs`.`Program_Num` AS `Program_Num`, `programs`.`Name` AS `Name`, `programs`.`Description` AS `Description` FROM `programs` WHERE `programs`.`User_Access` = 1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Structure for view `user_college_info`
 --
 DROP TABLE IF EXISTS `user_college_info`;
@@ -372,7 +397,9 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- Indexes for table `applications`
 --
 ALTER TABLE `applications`
-  ADD PRIMARY KEY (`App_Num`);
+  ADD PRIMARY KEY (`App_Num`),
+  ADD KEY `idx_uin` (`UIN`),
+  ADD KEY `idx_program_num` (`Program_Num`);
 
 --
 -- Indexes for table `certification`
@@ -461,7 +488,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `applications`
 --
 ALTER TABLE `applications`
-  MODIFY `App_Num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `App_Num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `cert_enrollment`
@@ -476,40 +503,10 @@ ALTER TABLE `class_enrollment`
   MODIFY `CE_NUM` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
--- AUTO_INCREMENT for table `document`
---
-ALTER TABLE `document`
-  MODIFY `Doc_Num` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `event`
---
-ALTER TABLE `event`
-  MODIFY `Event_ID` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `event_tracking`
---
-ALTER TABLE `event_tracking`
-  MODIFY `ET_Num` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `intern_app`
---
-ALTER TABLE `intern_app`
-  MODIFY `IA_Num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
 -- AUTO_INCREMENT for table `programs`
 --
 ALTER TABLE `programs`
-  MODIFY `Program_Num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- AUTO_INCREMENT for table `track`
---
-ALTER TABLE `track`
-  MODIFY `Tracking_Num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `Program_Num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `user`
