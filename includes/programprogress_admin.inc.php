@@ -1,4 +1,8 @@
 <?php 
+// Author: Daniel Huang
+// UIN: 830008438
+// Description: Handle the POST requests from the forms in admin_programprogress.php
+
 require_once "dbh.inc.php";
 require_once 'general_functions.inc.php';
 

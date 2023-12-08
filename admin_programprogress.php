@@ -1,18 +1,14 @@
 <?php
+// Author: Daniel Huang
+// UIN: 830008438
+// Description: Page for displaying Program Progress Tracking for the admin side
+
   include_once 'header.php';
   include_once 'includes/dbh.inc.php';
   include_once 'includes/general_functions.inc.php';
-  
-  // $sql = "SELECT * FROM user;";
-  // $result = mysqli_query($conn, $sql);
-  // $resultCheck = mysqli_num_rows($result);
-  // if($resultCheck > 0) {
-  //   while ($row = mysqli_fetch_assoc($result)) {
-  //     echo $row['Username'] . "<br>";
-  //   }
-  // }
 ?>
 <div class="container">
+  <!-- Forms are arranged into clickable tabs on the left column -->
   <div class="column1">
     <div class="tab">
       <button class="tablinks" onclick="openProgress(event, 'class')" id="defaultOpen">Class</button>
@@ -170,6 +166,7 @@
     </div>
 
   </div>
+  <!-- Get results from SELECT queries and display as tables in the right column -->
   <div class="column2">
     <?php
       $query = "SELECT * FROM class_enrollment;";
@@ -197,6 +194,8 @@
 </div>
 
 <script>
+//Logic for tab functionality
+
 function openProgress(evt, progress) {
   var i, tabcontent, tablinks;
   tabcontent = document.getElementsByClassName("tabcontent");

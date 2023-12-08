@@ -1,6 +1,11 @@
 <?php
+// Author: Daniel Huang
+// UIN: 830008438
+// Description: General functions that take in an array of fields representing the columns of a table
+
 require_once 'dbh.inc.php';
 
+//Makes a HTML table to display the result of a query
 function displayTable($conn, $query, $fields) {
   echo '<table><tr>';
   foreach ($fields as $value) {
@@ -21,6 +26,7 @@ function displayTable($conn, $query, $fields) {
   echo '</table>';
 }
 
+//Check if any field within the form is empty. Return true if yes, false if no.
 function emptyInput($fields) {
   $result = false;
   foreach ($fields as $value) {
@@ -32,6 +38,7 @@ function emptyInput($fields) {
   return $result;
 }
 
+//Execute SQL command
 function executeSQL($conn, $fields, $sql, $bindtypes) {
   $stmt = mysqli_stmt_init($conn);
   mysqli_stmt_prepare($stmt, $sql);
