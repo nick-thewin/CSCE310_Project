@@ -173,28 +173,25 @@
 
 
 <?php
-// This displays the table for the "programs" table and the "applications" table
-$query = "SELECT * FROM programs";
-echo "<br><b>Database Output for Programs & Applications</b>";
+// This displays the table for the Program view I created and the "applications" table
+$query = "SELECT * FROM ProgramView";
+echo "<br><b>Database Output for a Program View & Applications</b>";
 echo '<table> 
       <tr> 
           <th>Program_Num</th> 
           <th>Name</th>
           <th>Description</th> 
-          <th>User_Access</th> 
       </tr>';
 if ($result = $conn->query($query)) {
   while ($row = $result->fetch_assoc()) {
       $field1name = $row["Program_Num"];
       $field2name = $row["Name"];
       $field3name = $row["Description"];
-      $field4name = $row["User_Access"];
 
       echo '<tr> 
         <td>'.$field1name.'</td> 
         <td>'.$field2name.'</td> 
         <td>'.$field3name.'</td> 
-        <td>'.$field4name.'</td>
       </tr>';
   }
 $result->free();
