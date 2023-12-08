@@ -131,19 +131,99 @@ function updateUserInfo(){
     ob_end_flush();
 }
 
-// Function to handle deactivating the account.
-function deactivateAccount(){
+// Function to handle updating user information.
+function adminUpdate(){
     // Start output buffering
     ob_start();
 
-    // Update user type to 'Deactivated'
-    updateUserData('User_Type', 'Deactivated');
+    // Extract POST data
+    $UIN = $_POST['uin'];
+    $first = $_POST['first'];
+    $middle = $_POST['middle'];
+    $last = $_POST['last'];
+    $email = $_POST['email'];
+    $discord = $_POST['discord_name'];
+
+    // Validate input
+    if (emptyAdminInput($UIN, $first, $middle, $last, $email, $discord)) {
+        redirectToAdminUser("error=emptyinput2");
+    }
+    
+    // Update first name
+    if(!empty($first)){
+        updateUserData('First_Name', $first);
+    }
+
+    // Update middle initial
+    if(!empty($middle)){
+        updateUserData('M_Initial', $middle);
+    }
+
+    // Update last name
+    if(!empty($last)){
+        updateUserData('Last_Name', $last);
+    }
+
+    // Update email
+    if(!empty($email)){
+        updateUserData('Email', $email);
+    }
+
+    // Update discord
+    if(!empty($discord)){
+        updateUserData('Discord_Name', $discord);
+    }
+
+    // Redirect with success message
+    redirectToAdminUser("error=infosuccess");
+
+    // End output buffering
+    ob_end_flush();
+}
+
+// Function to handle deactivating the account.
+function updateRole($role, $msg){
+    // Start output buffering
+    ob_start();
+
+    // Update user type to role
+    updateUserData('User_Type', $role);
 
     // Redirect to index with deactivation message
-    redirectToIndex("error=accountdeactivated");
+    if($_SESSION['userPerm'] === "Admin"){
+        redirectToAdminUser($msg);
+    }
+    else{
+        session_unset();
+        redirectToIndex("error=accountdeactivated");
+    }
 
-    // Clear session
-    session_unset();
+    // End output buffering
+    ob_end_flush();
+}
+
+// Function to handle deleting the user account.
+function deleteAccount() {
+    // Start output buffering
+    ob_start();
+
+    // Get the user's UIN from the session
+    $uin = $_POST["uin"];
+
+    // Delete the user from the 'user' table
+    $sqlUser = "DELETE FROM `user` WHERE `UIN` = ?";
+    $stmtUser = mysqli_stmt_init($conn);
+
+    if (!mysqli_stmt_prepare($stmtUser, $sqlUser)) {
+        redirectToStudentUser("error=stmtfailed");
+    }
+
+    mysqli_stmt_bind_param($stmtUser, "i", $uin);
+    mysqli_stmt_execute($stmtUser);
+    mysqli_stmt_close($stmtUser);
+
+    // Redirect to index with deletion message
+    redirectToIndex("error=accountdeleted");
 
     // End output buffering
     ob_end_flush();
@@ -172,7 +252,13 @@ function isUsernameTaken($username){
 function updateUserData($field, $value){
     global $conn;
 
-    $sql = "UPDATE `user` SET `$field` = ? WHERE `user` . `UIN` = " . $_SESSION["userid"] . ";";
+    $uin = $_SESSION['userid'];
+
+    if($_SESSION['userPerm'] === "Admin"){
+        $uin = $_POST["uin"];
+    }
+
+    $sql = "UPDATE `user` SET `$field` = ? WHERE `user` . `UIN` = " . $uin . ";";
     $stmt = mysqli_stmt_init($conn);
 
     if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -188,6 +274,10 @@ function updateUserData($field, $value){
 function emptyUserInfoInput($email, $discord, $gender, $gpa, $major, $minor1, $minor2, $grad, $school, $classification, $phone, $type){
     return empty($email) && empty($discord) && empty($gender) && empty($gpa) && empty($major) && empty($minor1)
         && empty($minor2) && empty($grad) && empty($school) && empty($classification) && empty($phone) && empty($type);
+}
+
+function emptyAdminInput($UIN, $first, $middle, $last, $email, $discord){
+    return empty($UIN) && empty($first) && empty($middle) && empty($last) && empty($email) && empty($discord);
 }
 
 // Updates college student data in the database.
@@ -215,6 +305,11 @@ function redirectToStudentUser($errorMessage){
     exit();
 }
 
+function redirectToAdminUser($errorMessage){
+    header("location: ../adminuser.php?$errorMessage");
+    exit();
+}
+
 // Redirects to index.php with the specified error message.
 function redirectToIndex($errorMessage){
     header("location: ../index.php?$errorMessage");
@@ -226,7 +321,37 @@ if (isset($_POST['updatelogin'])) {
     updateLoginCredentials();
 } elseif (isset($_POST['updateinfo'])) {
     updateUserInfo();
-} elseif (isset($_POST['deactivate'])) {
-    deactivateAccount();
+} elseif (isset($_POST['updaterole'])) {
+    $role = $_POST["role"];
+    if(empty($_POST['uin'])){
+        redirectToAdminUser("error=emptyinput");
+    }
+    else{
+        updateRole($role, "error=updatesuccess");
+    }
+} elseif (isset($_POST['updateUser'])){
+    if(empty($_POST['uin'])){
+        redirectToAdminUser("error=emptyinput2");
+    }
+    else{
+        adminUpdate();
+    }
+}elseif (isset($_POST['removeaccess'])) {
+    $role = "Deactivated";
+    if(empty($_POST['uin'])){
+        redirectToAdminUser("error=emptyinput3");
+    }
+    else{
+        updateRole($role, "error=accessremoved");
+    }
+} elseif(isset($_POST['deactivate'])){
+    updateRole("Deactivated", ".");
+} elseif (isset($_POST['deleteaccount'])){
+    if(empty($_POST['uin'])){
+        redirectToAdminUser("error=emptyinput4");
+    }
+    else{
+        deleteAccount();
+    }
 }
 ?>
