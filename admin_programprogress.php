@@ -176,7 +176,7 @@
 
       $query = "SELECT * FROM intern_app;";
       $fields = array('IA_Num','UIN','Intern_ID','Status','Year');
-      echo "<br><b>Inernship Progress</b>";
+      echo "<br><b>Internship Progress</b>";
       displayTable($conn, $query, $fields);
 
       $query = "SELECT * FROM cert_enrollment;";

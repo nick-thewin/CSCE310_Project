@@ -1,4 +1,5 @@
 <?php
+// Authors: Daniel Huang, Hunter Pearson
 header("Content-type: text/css");
 ?>
 
