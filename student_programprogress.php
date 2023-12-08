@@ -161,7 +161,7 @@
       $query = "SELECT `IA_Num`, `Intern_ID`, `Status`, `Year` 
         FROM intern_app WHERE `UIN` = ".$_SESSION["userid"].";";
       $fields = array('IA_Num','Intern_ID','Status','Year');
-      echo "<br><b>Inernship Progress</b>";
+      echo "<br><b>Internship Progress</b>";
       displayTable($conn, $query, $fields);
 
       $query = "SELECT `CertE_Num`, `Cert_ID`, `Status`, `Training_Status`,  `Program_Num`, `Semester`, `Year` 

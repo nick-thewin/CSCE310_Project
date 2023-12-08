@@ -1,4 +1,5 @@
 <?php
+// Authors: Daniel Huang, Hunter Pearson, Nicholas Nguyen
 	session_start();
 
 	if(isset($_POST['button1'])){
