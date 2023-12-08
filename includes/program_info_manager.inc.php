@@ -100,33 +100,66 @@ if(isset($_POST['edit_program'])){
 
 // This function will occur when the button to generate a program report is clicked
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["generate_program_report"])) {
-  // Process form data
-  $programNum = isset($_POST["Program_Num"]) ? $_POST["Program_Num"] : '';
+ // Process form data
+ $programNum = isset($_POST["Program_Num"]) ? $_POST["Program_Num"] : '';
 
-  // Retrieve data from the database
-  $sql = "SELECT Name, Description, USER_Access FROM programs WHERE Program_Num = ?";
-  $stmt = $conn->prepare($sql);
-  $stmt->bind_param("s", $programNum);
-  $stmt->execute();
-  $stmt->bind_result($name, $description, $access);
-  $stmt->fetch();
-  $stmt->close();
+ // Retrieve data from the database
+ $sql = "SELECT Name, Description, USER_Access FROM programs WHERE Program_Num = ?";
+ $stmt = $conn->prepare($sql);
+ $stmt->bind_param("s", $programNum);
+ $stmt->execute();
+ $stmt->bind_result($name, $description, $access);
+ $stmt->fetch();
+ $stmt->close();
 
-  //Generate the report
-    $report = "Program Number: $programNum<br>";
-    $report .= "Name: $name<br>";
-    $report .= "Description: $description";
-    $report .= "User Access: $access";
+ // Count occurrences in the track table
+ $trackCountSql = "SELECT COUNT(*) AS trackCount FROM track WHERE Program_Num = ?";
+ $trackCountStmt = $conn->prepare($trackCountSql);
+ $trackCountStmt->bind_param("s", $programNum);
+ $trackCountStmt->execute();
+ $trackCountStmt->bind_result($trackCount);
+ $trackCountStmt->fetch();
+ $trackCountStmt->close();
 
-    // Display the report on the screen
-    echo "<h3>Generated Program Report</h3>";
-    echo '<div style="border: 1px solid #ccc; padding: 15px; margin: 20px; max-width: 400px;">';
-    echo "<p><strong>Program Number:</strong> $programNum</p>";
-    echo "<p><strong>Name:</strong> $name</p>";
-    echo "<p><strong>Description:</strong> $description</p>";
-    echo "<p><strong>User Access:</strong> $access</p>";
-    echo '</div>';
-    echo '<button style="margin-top: 10px;" onclick="history.go(-1);">Back</button>';
+ // Count occurrences in the event table
+ $eventCountSql = "SELECT COUNT(*) AS eventCount FROM event WHERE Program_Num = ?";
+ $trackCountStmt = $conn->prepare($eventCountSql);
+ $trackCountStmt->bind_param("s", $programNum);
+ $trackCountStmt->execute();
+ $trackCountStmt->bind_result($eventCount);
+ $trackCountStmt->fetch();
+ $trackCountStmt->close();
+
+ // Count occurrences in the cert_enrollment table
+ $certCountSql = "SELECT COUNT(*) AS certCount FROM cert_enrollment WHERE Program_Num = ?";
+ $trackCountStmt = $conn->prepare($certCountSql);
+ $trackCountStmt->bind_param("s", $programNum);
+ $trackCountStmt->execute();
+ $trackCountStmt->bind_result($certCount);
+ $trackCountStmt->fetch();
+ $trackCountStmt->close();
+
+ // Generate the report
+ $report = "Program Number: $programNum<br>";
+ $report .= "Name: $name<br>";
+ $report .= "Description: $description";
+ $report .= "User Access: $access<br>";
+ $report .= "Students tracked in the program: $trackCount";
+ $report .= "Number of events for the program: $eventCount";
+ $report .= "Number of certifications for the program: $certCount";
+
+ // Display the report on the screen
+ echo "<h3>Generated Program Report</h3>";
+ echo '<div style="border: 1px solid #ccc; padding: 15px; margin: 20px; max-width: 400px;">';
+ echo "<p><strong>Program Number:</strong> $programNum</p>";
+ echo "<p><strong>Name:</strong> $name</p>";
+ echo "<p><strong>Description:</strong> $description</p>";
+ echo "<p><strong>User Access:</strong> $access</p>";
+ echo "<p><strong>Students tracked in the program:</strong> $trackCount</p>";
+ echo "<p><strong>Number of events for the program:</strong> $eventCount</p>";
+ echo "<p><strong>Number of certifications for the program:</strong> $certCount</p>";
+ echo '</div>';
+ echo '<button style="margin-top: 10px;" onclick="history.go(-1);">Back</button>';
 }
 
 // This function will occur when the button to delete a program is clicked
