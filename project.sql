@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 08, 2023 at 07:38 PM
+-- Generation Time: Dec 09, 2023 at 02:14 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -168,6 +168,13 @@ CREATE TABLE `document` (
   `Doc_Type` varchar(128) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `document`
+--
+
+INSERT INTO `document` (`Doc_Num`, `App_Num`, `Link`, `Doc_Type`) VALUES
+(5, 11, 'https://s29.q4cdn.com/175625835/files/doc_downloads/test.pdf', 'pdf');
+
 -- --------------------------------------------------------
 
 --
@@ -177,14 +184,30 @@ CREATE TABLE `document` (
 CREATE TABLE `event` (
   `Event_ID` int(11) NOT NULL,
   `UIN` int(11) NOT NULL,
-  `Program_Num` int(11) NOT NULL,
-  `Start_Date` date NOT NULL,
-  `Time` time NOT NULL,
-  `Location` varchar(128) NOT NULL,
-  `End_Date` date NOT NULL,
-  `EndTime` time NOT NULL,
-  `Event_Type` varchar(128) NOT NULL
+  `Program_Num` int(11) DEFAULT NULL,
+  `Start_Date` date DEFAULT NULL,
+  `Time` time DEFAULT NULL,
+  `Location` varchar(128) DEFAULT NULL,
+  `End_Date` date DEFAULT NULL,
+  `EndTime` time DEFAULT NULL,
+  `Event_Type` varchar(128) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `event`
+--
+
+INSERT INTO `event` (`Event_ID`, `UIN`, `Program_Num`, `Start_Date`, `Time`, `Location`, `End_Date`, `EndTime`, `Event_Type`) VALUES
+(2, 1, 4321, '2023-12-12', '01:12:00', 'NotTest', '2023-12-12', '13:12:00', 'NotTesting');
+
+--
+-- Triggers `event`
+--
+DELIMITER $$
+CREATE TRIGGER `delete_event` BEFORE DELETE ON `event` FOR EACH ROW DELETE FROM event_tracking
+    WHERE Event_ID = OLD.Event_ID
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -445,13 +468,16 @@ ALTER TABLE `collegestudent`
 -- Indexes for table `document`
 --
 ALTER TABLE `document`
-  ADD PRIMARY KEY (`Doc_Num`);
+  ADD PRIMARY KEY (`Doc_Num`),
+  ADD KEY `idx_app_num` (`App_Num`);
 
 --
 -- Indexes for table `event`
 --
 ALTER TABLE `event`
-  ADD PRIMARY KEY (`Event_ID`);
+  ADD PRIMARY KEY (`Event_ID`),
+  ADD KEY `idx_uin` (`UIN`),
+  ADD KEY `idx_program_num` (`Program_Num`);
 
 --
 -- Indexes for table `event_tracking`
@@ -514,6 +540,24 @@ ALTER TABLE `cert_enrollment`
 --
 ALTER TABLE `class_enrollment`
   MODIFY `CE_NUM` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `document`
+--
+ALTER TABLE `document`
+  MODIFY `Doc_Num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `event`
+--
+ALTER TABLE `event`
+  MODIFY `Event_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT for table `event_tracking`
+--
+ALTER TABLE `event_tracking`
+  MODIFY `ET_Num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `intern_app`

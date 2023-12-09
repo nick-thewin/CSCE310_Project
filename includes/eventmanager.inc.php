@@ -1,4 +1,7 @@
 <?php 
+//Author: Jack Hanna
+//UIN: 930008789
+//Description: Code for managing user actions in the event manager view
 require_once 'dbh.inc.php';
 
 //--------------------INSERT--------------------
@@ -23,16 +26,16 @@ if(isset($_POST['insert_event'])){
 
     //Bind variables and execute
     if (mysqli_stmt_prepare($stmt, $sql)) {
-        mysqli_stmt_bind_param($stmt, "iissssss", $UIN, $ProgNum, $StartDate, $StartTime, $Location, $EndDate, $EndTime, $Type);
+        mysqli_stmt_bind_param($stmt, "iissssss", $UIN, nullHandler($ProgNum), nullHandler($StartDate), nullHandler($StartTime), nullHandler($Location), nullHandler($EndDate), nullHandler($EndTime), nullHandler($Type));
 
         if (mysqli_stmt_execute($stmt)) {
             mysqli_stmt_close($stmt);
             echo "Event inserted successfully";
         } else {
-            echo "ERROR(runtime): " . mysqli_stmt_error($stmt);
+            returnError(mysqli_stmt_error($stmt));
         }
     } else {
-        echo "ERROR(setup): " . mysqli_error($conn);
+        returnError(mysqli_error($conn));
     }
 
     //Cleanup
@@ -45,6 +48,7 @@ if(isset($_POST['insert_event'])){
 if(isset($_POST['update_event'])){
     //Collect Form Values
     $EventID = $_POST['EventID'];
+    $UIN = $_POST['UIN'];
     $ProgNum = $_POST['ProgNum'];
     $StartDate = $_POST['StartDate'];
     $StartTime = $_POST['StartTime'];
@@ -54,16 +58,29 @@ if(isset($_POST['update_event'])){
     $Type = $_POST['Type'];
 
     if(empty($EventID)){
-        echo "ERROR: No event selected";
-        exit();
+        returnError("No event selected");
+    }
+
+    if(empty($UIN) && empty($ProgNum) && empty($StartDate) && empty($StartTime) && empty($EndDate) && empty($EndTime) && empty($Location) && empty($Type)){
+        returnError("No attributes have been modified");
+    }
+
+    if(!empty($UIN)){
+        $sql = "UPDATE `event` SET `UIN`=? WHERE `event` . `Event_ID`=" . $EventID . ";";
+        $stmt = mysqli_stmt_init($conn);
+        if(!mysqli_stmt_prepare($stmt, $sql)){
+            returnError("Failed to update Program_Num");
+        }
+        mysqli_stmt_bind_param($stmt, "i", $UIN);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
     }
 
     if(!empty($ProgNum)){
         $sql = "UPDATE `event` SET `Program_Num`=? WHERE `event` . `Event_ID`=" . $EventID . ";";
         $stmt = mysqli_stmt_init($conn);
         if(!mysqli_stmt_prepare($stmt, $sql)){
-            echo("ERROR: Failed to update Program_Num");
-            exit();
+            returnError("Failed to update Program_Num");
         }
         mysqli_stmt_bind_param($stmt, "i", $ProgNum);
         mysqli_stmt_execute($stmt);
@@ -74,8 +91,7 @@ if(isset($_POST['update_event'])){
         $sql = "UPDATE `event` SET `Start_Date`=? WHERE `event` . `Event_ID`=" . $EventID . ";";
         $stmt = mysqli_stmt_init($conn);
         if(!mysqli_stmt_prepare($stmt, $sql)){
-            echo("ERROR: Failed to update Start_Date");
-            exit();
+            returnError("Failed to update Start_Date");
         }
         mysqli_stmt_bind_param($stmt, "s", $StartDate);
         mysqli_stmt_execute($stmt);
@@ -86,8 +102,7 @@ if(isset($_POST['update_event'])){
         $sql = "UPDATE `event` SET `Time`=? WHERE `event` . `Event_ID`=" . $EventID . ";";
         $stmt = mysqli_stmt_init($conn);
         if(!mysqli_stmt_prepare($stmt, $sql)){
-            echo("ERROR: Failed to update Time");
-            exit();
+            returnError("Failed to update Time");
         }
         mysqli_stmt_bind_param($stmt, "s", $StartTime);
         mysqli_stmt_execute($stmt);
@@ -98,8 +113,7 @@ if(isset($_POST['update_event'])){
         $sql = "UPDATE `event` SET `End_Date`=? WHERE `event` . `Event_ID`=" . $EventID . ";";
         $stmt = mysqli_stmt_init($conn);
         if(!mysqli_stmt_prepare($stmt, $sql)){
-            echo("ERROR: Failed to update End_Date");
-            exit();
+            returnError("Failed to update End_Date");
         }
         mysqli_stmt_bind_param($stmt, "s", $EndDate);
         mysqli_stmt_execute($stmt);
@@ -110,8 +124,7 @@ if(isset($_POST['update_event'])){
         $sql = "UPDATE `event` SET `EndTime`=? WHERE `event` . `Event_ID`=" . $EventID . ";";
         $stmt = mysqli_stmt_init($conn);
         if(!mysqli_stmt_prepare($stmt, $sql)){
-            echo("ERROR: Failed to update EndTime");
-            exit();
+            returnError("Failed to update EndTime");
         }
         mysqli_stmt_bind_param($stmt, "s", $EndTime);
         mysqli_stmt_execute($stmt);
@@ -122,8 +135,7 @@ if(isset($_POST['update_event'])){
         $sql = "UPDATE `event` SET `Location`=? WHERE `event` . `Event_ID`=" . $EventID . ";";
         $stmt = mysqli_stmt_init($conn);
         if(!mysqli_stmt_prepare($stmt, $sql)){
-            echo("ERROR: Failed to update Location");
-            exit();
+            returnError("Failed to update Location");
         }
         mysqli_stmt_bind_param($stmt, "s", $Location);
         mysqli_stmt_execute($stmt);
@@ -134,8 +146,7 @@ if(isset($_POST['update_event'])){
         $sql = "UPDATE `event` SET `Event_Type`=? WHERE `event` . `Event_ID`=" . $EventID . ";";
         $stmt = mysqli_stmt_init($conn);
         if(!mysqli_stmt_prepare($stmt, $sql)){
-            echo("ERROR: Failed to update Event_Type");
-            exit();
+            returnError("Failed to update Event_Type");
         }
         mysqli_stmt_bind_param($stmt, "s", $Type);
         mysqli_stmt_execute($stmt);
@@ -155,12 +166,10 @@ if(isset($_POST['update_event_student'])){
     $Add_Delete = $_POST['Add_Delete'];
 
     if(empty($EventID)){
-        echo("ERROR: No event selected");
-        exit();
+        returnError("No event selected");
     }
     if(empty($UIN)){
-        echo("ERROR: No student selected");
-        exit();
+        returnError("No student selected");
     }
 
     if($Add_Delete){
@@ -176,10 +185,10 @@ if(isset($_POST['update_event_student'])){
                 mysqli_stmt_close($stmt);
                 echo "Student inserted successfully";
             } else {
-                echo "ERROR(runtime): " . mysqli_stmt_error($stmt);
+                returnError(mysqli_stmt_error($stmt));
             }
         } else {
-            echo "ERROR(setup): " . mysqli_error($conn);
+            returnError(mysqli_error($conn));
         }
 
         //Cleanup
@@ -198,10 +207,10 @@ if(isset($_POST['update_event_student'])){
                 mysqli_stmt_close($stmt);
                 echo "Student deleted successfully";
             } else {
-                echo "ERROR(runtime): " . mysqli_stmt_error($stmt);
+                returnError(mysqli_stmt_error($stmt));
             }
         } else {
-            echo "ERROR(setup): " . mysqli_error($conn);
+            returnError(mysqli_error($conn));
         }
 
         //Cleanup
@@ -214,6 +223,10 @@ if(isset($_POST['update_event_student'])){
 if(isset($_POST['select_event'])){
     //Collect Form Values
     $EventID = $_POST['EventID'];
+
+    if(empty($EventID)){
+        returnError("No event selected");
+    }
 
     echo"<link href=\"../style.php\" rel=\"stylesheet\">";
     echo "<h3>Result<h3>";
@@ -278,6 +291,10 @@ if(isset($_POST['delete_event'])){
     //Collect Form Values
     $EventID = $_POST['EventID'];
 
+    if(empty($EventID)){
+        returnError("No event selected");
+    }
+
     //Define SQL Statement
     $sql = "DELETE FROM `event` WHERE `Event_ID`=?";
     $stmt = mysqli_stmt_init($conn);
@@ -290,15 +307,36 @@ if(isset($_POST['delete_event'])){
             mysqli_stmt_close($stmt);
             echo "Event deleted successfully";
         } else {
-            echo "ERROR(runtime): " . mysqli_stmt_error($stmt);
+            returnError(mysqli_stmt_error($stmt));
         }
     } else {
-        echo "ERROR(setup): " . mysqli_error($conn);
+        returnError(mysqli_error($conn));
     }
 
     //Cleanup
     header("Location: ../eventmanager.php");
     exit();
+}
+
+function returnError($ErrorMsg){
+    echo "<link href=`../style.php` rel=`stylesheet`>
+    <div class=`containter`>
+    <div class=`column1`>
+    <body>
+    <h3>ERROR:</h3>";
+    echo "<p>".$ErrorMsg."</p>";
+    echo "<br><button onclick=`history.go(-1);`>Back</button>
+    </body>
+    </div>
+    </div>";
+    exit();
+}
+
+function nullHandler($value){
+    if(empty($value)){
+        return NULL;
+    }
+    return $value;
 }
 
 ?>
