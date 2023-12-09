@@ -1,4 +1,7 @@
 <?php
+  //Author: Jack Hanna
+  //UIN: 930008789
+  //Description: Code for building the event manager view
   include_once 'header.php';
   include_once 'includes/dbh.inc.php';
 ?>
@@ -53,7 +56,8 @@
       <h3>Insert Event</h3>
       <form action="includes/eventmanager.inc.php" method="post">
         <label>Program Number:</label><br>
-        <input type="number" id="ProgNum" name="ProgNum"></input><br>
+        <?php programSelector($conn); ?><br>
+        <!-- <input type="number" id="ProgNum" name="ProgNum"></input><br> !-->
         <label>Start:</label><br>
         <input type="date" id="StartDate" name="StartDate"></input>
         <input type="time" id="StartTime" name="StartTime"></input><br>
@@ -71,9 +75,13 @@
       <h3>Update Event</h3>
       <form action="includes/eventmanager.inc.php" method="post">
         <label>Event ID:</label><br>
-        <input type="number" id="EventID" name="EventID"></input><br>
+        <?php columnSelector($conn, "Event_ID", "EventID"); ?><br>
+        <!-- <input type="number" id="EventID" name="EventID"></input><br> !-->
+        <label>Administrator:</label><br>
+        <input type="number" id="UIN" name="UIN"></input><br>
         <label>Program Number:</label><br>
-        <input type="number" id="ProgNum" name="ProgNum"></input><br>
+        <?php programSelector($conn); ?><br>
+        <!-- <input type="number" id="ProgNum" name="ProgNum"></input><br> !-->
         <label>Start:</label><br>
         <input type="date" id="StartDate" name="StartDate"></input>
         <input type="time" id="StartTime" name="StartTime"></input><br>
@@ -90,7 +98,8 @@
       <h3>Add/Remove Students</h3>
       <form action="includes/eventmanager.inc.php" method="post">
         <label>Event ID:</label><br>
-        <input type="number" id="EventID" name="EventID"></input><br>
+        <?php columnSelector($conn, "Event_ID", "EventID"); ?><br>
+        <!-- <input type="number" id="EventID" name="EventID"></input><br> !-->
         <label>UIN:</label><br>
         <input type="number" id="UIN" name="UIN"></input><br>
         <select id="Add_Delete" name="Add_Delete">
@@ -103,7 +112,8 @@
       <h3>View Event Details</h3>
       <form action="includes/eventmanager.inc.php" method="post">
         <label>Event ID:</label><br>
-        <input type="number" id="EventID" name="EventID"></input><br>
+        <?php columnSelector($conn, "Event_ID", "EventID"); ?><br>
+        <!-- <input type="number" id="EventID" name="EventID"></input><br> !-->
         <button type="select_event" name="select_event">Submit</button>
       </form>
 
@@ -111,7 +121,8 @@
       <h3>Delete Event</h3>
       <form action="includes/eventmanager.inc.php" method="post">
         <label>Event ID:</label><br>
-        <input type="number" id="EventID" name="EventID"></input><br>
+        <?php columnSelector($conn, "Event_ID", "EventID"); ?><br>
+        <!-- <input type="number" id="EventID" name="EventID"></input><br> !-->
         <button type="delete_event" name="delete_event">Submit</button>
       </form>
 
@@ -160,3 +171,30 @@
 </body>
 
 </html>
+
+<?php
+
+  function columnSelector($conn, $Col, $ID){
+    $Query = "SELECT `".$Col."` FROM event";
+    $Result = $conn->query($Query);
+
+    echo '<select id="'.$ID.'" name="'.$ID.'">';
+    echo '<option value="">(Select an Option)</option>';
+    while ($row = $Result->fetch_assoc()) {
+      echo "<option value=" . $row[$Col] . ">" . $row[$Col] . "</option>";
+    }
+    echo '</select>';
+  }
+
+  function programSelector($conn){
+    $ProgQuery = "SELECT `Program_Num`, `Name` FROM programs";
+    $ProgResult = $conn->query($ProgQuery);
+
+    echo '<select id="ProgNum" name="ProgNum">';
+    echo '<option value="">(Select an Option)</option>';
+    while ($row = $ProgResult->fetch_assoc()) {
+      echo "<option value=" . $row["Program_Num"] . ">" . $row["Name"] . " (" . $row["Program_Num"] . ")</option>";
+    }
+    echo '</select>';
+  }
+?>

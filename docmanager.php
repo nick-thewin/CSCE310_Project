@@ -1,6 +1,9 @@
 <?php
   include_once 'header.php';
   include_once 'includes/dbh.inc.php';
+  //Author: Jack Hanna
+  //UIN: 930008789
+  //Description: Code for building the document manager view
 ?>
 
 <!DOCTYPE html>
@@ -58,36 +61,39 @@
         <input type="text" id="Link" name="Link"></input><br>
         <label>Document Type:</label><br>
         <input type="text" id="DocType" name="DocType"></input><br>
-        <button type="insert_event" name="insert_doc">Submit</button>
+        <button type="insert_doc" name="insert_doc">Submit</button>
       </form>
 
 
       <h3>Update Document</h3>
       <form action="includes/docmanager.inc.php" method="post">
         <label>Document ID:</label><br>
-        <input type="number" id="DocID" name="DocID"></input><br>
+        <?php columnSelector($conn, "Doc_Num", "DocID"); ?><br>
+        <!-- <input type="number" id="DocID" name="DocID"></input><br> !-->
         <label>Application ID:</label><br>
         <input type="number" id="AppID" name="AppID"></input><br>
         <label>Link:</label><br>
         <input type="text" id="Link" name="Link"></input><br>
         <label>Document Type:</label><br>
         <input type="text" id="DocType" name="DocType"></input><br>
-        <button type="update_event" name="update_doc">Submit</button>
+        <button type="update_doc" name="update_doc">Submit</button>
       </form>
 
       <h3>View Document</h3>
       <form action="includes/docmanager.inc.php" method="post">
         <label>Document ID:</label><br>
-        <input type="number" id="DocID" name="DocID"></input><br>
-        <button type="select_event" name="select_doc">Submit</button>
+        <?php columnSelector($conn, "Doc_Num", "DocID"); ?><br>
+        <!-- <input type="number" id="DocID" name="DocID"></input><br> !-->
+        <button type="select_doc" name="select_doc">Submit</button>
       </form>
 
 
       <h3>Delete Document</h3>
       <form action="includes/docmanager.inc.php" method="post">
         <label>Document ID:</label><br>
-        <input type="number" id="DocID" name="DocID"></input><br>
-        <button type="delete_event" name="delete_doc">Submit</button>
+        <?php columnSelector($conn, "Doc_Num", "DocID"); ?><br>
+        <!-- <input type="number" id="DocID" name="DocID"></input><br> !-->
+        <button type="delete_doc" name="delete_doc">Submit</button>
       </form>
 
     </div>
@@ -137,4 +143,17 @@
   }
   echo '</select>';
   */
+
+  function columnSelector($conn, $Col, $ID){
+    $Query = "SELECT `".$Col."` FROM document";
+    $Result = $conn->query($Query);
+
+    echo '<select id="'.$ID.'" name="'.$ID.'">';
+    echo '<option value="">(Select an Option)</option>';
+    while ($row = $Result->fetch_assoc()) {
+      echo "<option value=" . $row[$Col] . ">" . $row[$Col] . "</option>";
+    }
+    echo '</select>';
+  }
+  
 ?>
